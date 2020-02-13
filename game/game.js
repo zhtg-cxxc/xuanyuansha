@@ -26064,7 +26064,7 @@
 				}
 			}
 			if(!withport){
-				ip=ip+':8080';
+				ip=ip+':18080';
 			}
 			_status.connectCallback=callback;
 			try{
@@ -26129,7 +26129,7 @@
 			}
 			else{
 				var WebSocketServer=require('ws').Server;
-				var wss=new WebSocketServer({port:8080});
+				var wss=new WebSocketServer({port:18080});
 
 				game.ip=get.ip();
 
@@ -47035,7 +47035,7 @@
 		},
 		trimip:function(str){
 			var len=str.length-5;
-			if(str.lastIndexOf(':8080')==len){
+			if(str.lastIndexOf(':18080')==len){
 				str=str.slice(0,len);
 			}
 			return str;
