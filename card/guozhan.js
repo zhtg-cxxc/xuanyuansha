@@ -1077,7 +1077,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			g_taipingyaoshu:{},
 			yuxi_skill:{
 				equipSkill:true,
-				trigger:{player:'phaseDrawBegin'},
+				trigger:{player:'phaseDrawBegin2'},
 				forced:true,
 				filter:function(event,player){
 					return !player.isUnseen();
@@ -1127,10 +1127,15 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			},
 			g_chiling1:{
 				mode:['guozhan'],
-				trigger:{player:'discardAfter'},
+				trigger:{
+					player:'loseEnd',
+					global:'cardsDiscardEnd',
+				},
 				filter:function(event,player){
+					var evt=event.getParent().relatedEvent;
+					if(evt&&evt.name=='useCard') return false;
 					for(var i=0;i<event.cards.length;i++){
-						if(event.cards[i].name=='chiling'&&get.position(event.cards[i])=='d'){
+						if(event.cards[i].name=='chiling'&&get.position(event.cards[i],true)=='d'){
 							return true;
 						}
 					}
@@ -1146,36 +1151,21 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 						}
 					}
 					if(cards.length){
-						for(var i=0;i<cards.length;i++){
-							cards[i].remove();
-						}
+						game.cardsGotoSpecial(cards);
+						game.log(cards,'已被移出游戏');
 						_status.chiling=true;
 						player.popup('敕令');
 					}
 				},
 			},
-			g_chiling2:{
-				mode:['guozhan'],
-				trigger:{player:'judgeAfter'},
-				forced:true,
-				popup:false,
-				filter:function(event,player){
-					if(event.result.card.parentNode.id!='discardPile') return false;
-					return event.result.card.name=='chiling';
-				},
-				content:function(){
-					_status.chiling=true;
-					trigger.result.card.remove();
-					player.popup('敕令');
-				}
-			},
+			g_chiling2:{},
 			g_chiling3:{
 				mode:['guozhan'],
 				trigger:{player:'phaseAfter'},
 				forced:true,
 				popup:false,
 				filter:function(){
-					return _status.chiling;
+					return _status.chiling==true;
 				},
 				content:function(){
 					'step 0'
@@ -1227,7 +1217,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			},
 			g_diaohulishan:{},
 			diaohulishan:{
-				trigger:{player:['damageBefore','loseHpBefore','recoverBefore']},
+				trigger:{player:['damageBegin3','loseHpBefore','recoverBefore']},
 				forced:true,
 				popup:false,
 				content:function(){
@@ -1382,7 +1372,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			lulitongxin:'勠力同心',
 			lulitongxin_info:'出牌阶段，对所有大势力角色或所有小势力角色使用。若目标角色：不处于“连环状态”，其横置；处于“连环状态”，其摸一张牌',
 			lianjunshengyan:'联军盛宴',
-			lianjunshengyan_info:'出牌阶段，对你和你选择的除你的势力外的一个势力的所有角色。若目标角色：为你，你摸X张牌或回复X点体力（X为该势力的角色数）；不为你，其摸一张牌，然后重置。',
+			lianjunshengyan_info:'出牌阶段，对你和你选择的除你的势力外的一个势力的所有角色。若目标角色：为你，你选择摸Y张牌并回复X-Y点体力（X为该势力的角色数，Y∈[0,X]）；不为你，其摸一张牌，然后重置。',
 			lianjunshengyan_info_boss:'出牌阶段，对场上所有角色使用。你摸X张牌（X为目存活角色数），其他角色依次选择回复1点体力或摸一张牌。',
 			chiling:'敕令',
 			chiling_info:'出牌阶段，对所有没有势力的角色使用。目标角色选择一项：1、明置一张武将牌，然后摸一张牌；2、弃置一张装备牌；3、失去1点体力。当【敕令】因判定或弃置而置入弃牌堆时，系统将之移出游戏，然后系统于当前回合结束后视为对所有没有势力的角色使用【敕令】',

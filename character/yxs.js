@@ -54,7 +54,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			yxs_mozi:' 宋国大夫，名翟，鲁人(今山东滕州人)。墨子是我国战国时期著名的思想家、教育家、科学家、军事家、社会活动家，墨家学派的创始人。墨子曾阻止鲁阳文君攻郑，说服公输般而止楚攻宋。楚惠王打算以书社封墨子，越王也打算以吴之地方五百里以封墨子，但墨子都没有接受。其创立墨家学说，并有《墨子》一书传世。',
 			yxs_bole:'伯乐，名孙阳，字子良，一作王良。春秋齐（今山东省威武）人。善于相马，为赵简子御。相传天上御者名伯乐，因其善相，遂号之，传至今。初，见老骥 拖车，喘息不定，伯乐哀之，马亦哀啼，方知乃良驹。后世长以伯乐比喻慧眼识人者。',
 			yxs_aijiyanhou:'埃及艳后即克丽奥佩托拉七世,是古埃及托勒密王朝的最后一任法老。她通过政治联姻为古埃及赢取了22年的和平。埃及艳后的一生富有戏剧性，特别是卷入罗马共和末期的政治漩涡，同恺撒、安东尼关系密切，并伴以种种传闻逸事，使她成为文学和艺术作品中的著名人物。',
-			yxs_diaochan:'中国古代四大美女之一，今山西忻州人，有野史说其姓霍，轩辕，又有一说称其任姓，小字红昌。貂蝉是东汉末年司徒王允的义女，国色天香，有倾国倾城之貌，相传貂婵在后花园拜月时，忽然轻风吹来，一块浮云将那皎洁的明月遮住。这时正好王允瞧见，便说我的女儿和月亮比美，月亮比不过，赶紧躲在云彩后面。此后，世人常用“闭月”来形容貂婵的美貌。',
+			yxs_diaochan:'中国古代四大美女之一，今山西忻州人，有野史说其姓霍，无名，又有一说称其任姓，小字红昌。貂蝉是东汉末年司徒王允的义女，国色天香，有倾国倾城之貌，相传貂婵在后花园拜月时，忽然轻风吹来，一块浮云将那皎洁的明月遮住。这时正好王允瞧见，便说我的女儿和月亮比美，月亮比不过，赶紧躲在云彩后面。此后，世人常用“闭月”来形容貂婵的美貌。',
 			yxs_yangyuhuan:'唐朝贵妃，名玉环，字太真，蒲州永乐人（今山西永济）。杨玉环自小习音律，善歌舞，姿色超群。27岁时，得唐玄宗宠幸，召入宫中，封为贵妃。杨贵妃天生丽质，回眸一笑百媚生，六宫粉黛无颜色，堪称大唐第一美女，此后千余年无出其右者。其与西施、昭君、貂蝉并称中国古代四大美女。',
 			yxs_baosi:'褒姒，周幽王姬宫涅的王后，褒姒原是一名弃婴，被一对做小买卖的夫妻收养，在褒国（今陕西省汉中西北）长大，公元前七七九年（周幽王三年），周幽王征伐有褒国，褒人献出美女褒姒乞降，幽王爱如掌上明珠，立为妃，宠冠周王宫，翌年，褒姒生子伯服（一作伯般），幽王对她更加宠爱，竟废去王后申氏和太子宜臼，册立褒姒为王后，立伯服为太子，周太史伯阳叹气道：“周王室已面临大祸，这是不可避免的了。”',
 			yxs_napolun:'法兰西第一共和国执政、法兰西第一帝国皇帝，出生在法国科西嘉岛，是一位卓越的军事天才。他多次击败保王党的反扑和反法同盟的入侵，捍卫了法国大革命的成果。他颁布的《民法典》更是成为了后世资本主义国家的立法蓝本。他执政期间多次对外扩张，形成了庞大的帝国体系，创造了一系列军事奇迹。',
@@ -521,7 +521,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			taiji:{
-				trigger:{player:'respond'},
+				trigger:{player:['useCard','respond']},
 				filter:function(event,player){
 					return event.card.name=='shan'&&player.hasSha();
 				},
@@ -1414,14 +1414,14 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			jimin:{
-				enable:['chooseToRespond'],
+				enable:['chooseToRespond','chooseToUse'],
 				filterCard:true,
 				viewAs:{name:'shan'},
 				viewAsFilter:function(player){
 					if(!player.countCards('h')) return false;
 					if(player.countCards('e')) return false;
 				},
-				prompt:'将一张手牌当闪打出',
+				prompt:'将一张手牌当闪使用或打出',
 				check:function(){return 1},
 				ai:{
 					respondShan:true,
@@ -1646,7 +1646,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				},
 			},
 			tuqiang:{
-				trigger:{player:'respond'},
+				trigger:{player:['respond','useCard']},
 				filter:function(event,player){
 					return event.card&&event.card.name=='shan';
 				},
@@ -1956,7 +1956,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				filter:function(event,player){
 					if(event.player==player) return false;
 					if(event.player.sex!='male') return false;
-					if(event.result.card.parentNode.id!='discardPile') return false;
+					if(get.position(event.result.card)!='o') return false;
 					return (get.color(event.result.card)=='red');
 				},
 				content:function(){
@@ -1968,9 +1968,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				enable:'phaseUse',
 				usable:1,
 				filterCard:true,
-				filterTarget:function(card,player,target){
-					return player!=target;
-				},
+				filterTarget:true,
 				check:function(card){
 					return 8-get.value(card);
 				},

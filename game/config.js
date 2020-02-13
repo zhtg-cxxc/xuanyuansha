@@ -1,5 +1,5 @@
 window.config={
-	forbidai:['ns_liuzhang'],
+	forbidai:['ns_liuzhang','xin_yuji','re_yuji'],
 	forbidai_user:[],
 	forbidall:[],
 	forbidstone:['zhugedan','pal_xuanxiao','hs_malfurion','lusu','chenlin','hs_siwangzhiyi',
@@ -14,7 +14,7 @@ window.config={
 	forbiddouble:['zhugedan','swd_kangnalishi','dongzhuo','wutugu','hs_siwangzhiyi','hs_ronghejuren','hs_shanlingjuren'],
 	forbidthreecard:['qiankunbiao','shenhuofeiya','gw_ciguhanshuang','gw_birinongwu','gw_qinpendayu','gw_poxiao'],
 	all:{
-		sgscharacters:['standard','shenhua','xinghuoliaoyuan','refresh','yijiang','sp','extra','old','mobile','tw'],
+		sgscharacters:['xys','standard','shenhua','xinghuoliaoyuan','refresh','yijiang','sp','extra','old','mobile','tw'],
 		sgscards:['standard','extra','sp','guozhan'],
 		sgsmodes:['identity','guozhan','versus','doudizhu','single','brawl','connect'],
 		stockmode:['identity','guozhan','versus','boss','doudizhu','single','chess','stone','connect','brawl','tafang'],
@@ -128,8 +128,8 @@ window.config={
 
 	cards:['standard','ex','extra','classic','basic'],
 	characters:['xys','standard'],
-	connect_characters:[],
-	connect_cards:[],
+	connect_characters:['xys','standard'],
+	connect_cards:['standard','ex','extra','classic','basic'],
 	plays:[],
 	extensions:[],
 	banned:[],
@@ -182,7 +182,10 @@ window.config={
 	customforbid:[],
 	forbid:[
 		['huashen'],
+		['rehuashen'],
 		['xinmanjuan'],
+		//['xinleiji','fuji'],
+		['xinleiji','xinfu_jijun'],
 		['reluanji','jueqing'],
 		['lianying','rende'],
 		['lianying','anxian'],

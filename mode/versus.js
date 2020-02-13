@@ -3787,34 +3787,44 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 			["club",4,"bingliang"],
 		],
 		choiceThree:[
-			'zhenji','zhugeliang','sunquan','diaochan',
-			're_ganning','re_daqiao','re_zhangfei','re_machao','re_simayi','re_zhangliao','re_xuzhu','re_guojia','re_lidian',
+			//'zhenji','zhugeliang','diaochan','liyan','xuezong','simalang','quyi','re_guojia',
+			'sunquan',
+			're_ganning','re_daqiao','re_zhangfei','re_machao','re_simayi','re_zhangliao','re_xuzhu',
+			're_lidian',
 			'jiangwei','sunce',
+			'dianwei','dengai','re_pangde',
+			'xusheng','chengong','xin_masu',
 			'madai','lingtong','yufan',
 			'wangji','yanyan','wangping',
-			'guyong','jushou','caifuren','zhoucang','liuchen','liyan',
-			'caiyong','xuezong',
-			'zhugejin','simalang','sp_sunshangxiang','luzhi','sp_liuqi','quyi',
-			'mazhong','mayunlu','litong','wenpin'
+			'guyong','jushou','caifuren','zhoucang','liuchen',
+			'caiyong',
+			'zhugejin',
+			'sp_sunshangxiang','luzhi','sp_liuqi',
+			'mazhong','mayunlu','litong','wenpin',
+			'zhugeke','dingfeng',
 		],
 		choiceFour:[
-			'sunquan','re_ganning','re_lvmeng','re_zhouyu','re_daqiao','re_luxun','sunshangxiang',
-			're_liubei','re_guanyu','re_zhangfei','zhugeliang','re_zhaoyun','re_machao','huangyueying','re_xushu',
-			're_caocao','re_simayi','re_xiahoudun','re_zhangliao','re_xuzhu','re_guojia','zhenji','re_lidian',
-			're_lvbu','diaochan','re_huatuo',
-			'xiahouyuan','huangzhong','xiaoqiao',
-			'dianwei','pangtong','sp_zhugeliang','taishici','pangde','yanwen',
-			'xuhuang','sunjian','jiaxu','dongzhuo',
-			'zhanghe','dengai','jiangwei','liushan','sunce',
-			'caozhi','zhangchunhua','xin_masu','xin_fazheng','xin_xushu','lingtong','wuguotai','xusheng','chengong','gaoshun',
-			'xunyou','wangyi','zhonghui','madai','liaohua','chengpu','handang','bulianshi',
-			'jianyong','panzhangmazhong','yufan','xin_liru','fuhuanghou',
-			'caozhen','chenqun','hanhaoshihuan','wuyi','zhoucang','guyong','sunluban','jushou','caifuren',
-			'caoxiu','liuchen','gongsunyuan',
-			'guohuanghou','liyan','cenhun','liuyu','sundeng',
-			'sp_caiwenji','yuejin','sp_jiangwei','simalang','chengyu','caoang','wangji','wenpin',
-			'zhugedan','mizhu','mayunlu','zhugeke','zumao','dingfeng','sunhao','zhanglu','hetaihou',
-			'litong','dongbai','yanbaihu','zhugejin','daxiaoqiao'
+			'sunquan','zhenji','re_diaochan','zhugeliang','sunshangxiang','re_huangyueying',
+			're_caocao','re_liubei','re_simayi','re_guanyu','re_zhouyu','re_lvbu','re_daqiao','re_zhangfei','re_zhangliao','re_zhaoyun','re_xuzhu','re_machao','re_ganning','re_guojia','re_lidian','re_xiahoudun','re_xushu','re_lvmeng',
+			're_xiahouyuan','re_xiaoqiao','re_huangzhong',
+			'yanwen','dianwei','pangtong','taishici','sp_zhugeliang','re_pangde',
+			'dongzhuo','jiaxu','sunjian','xuhuang','zhurong','jiangwei','sunce',
+			'wangping','sunliang','wangji','yanyan',
+			'chengong','zhangchunhua','xin_fazheng','lingtong','wuguotai','caozhi','xusheng',
+			'xunyou','zhonghui','xin_wangyi','madai',//'bulianshi',
+			'handang','liubiao',
+			'fuhuanghou','xin_liru',//'jianyong',
+			'panzhangmazhong','yufan','liufeng',
+			'yj_jushou','caifuren','guyong','zhoucang','sunluban',
+			'gongsunyuan','liuchen','xiahoushi','sunxiu',//'quancong',
+			'guotupangji',
+			'liyan',//'sundeng','cenhun','guohuanghou',
+			'caiyong','wuxian',//'xuecong',
+			'liuxie','yuejin','caoang','hetaihou','simalang','mayunlu','zhugejin','sp_machao','zhugeke','sp_caoren',
+			'dingfeng','heqi','chengyu','wenpin','guanyinping','kanze',
+			'sp_sunshangxiang','quyi','sp_jiangwei','dongbai',//'litong',
+			'yangxiu','sunqian','sunhao','xiahouba','liuqi','luzhi',
+			'zhugeguo','guosi','xf_tangzi','xf_sufei','caohong','mazhong',
 		],
 		translate:{
 			zhu:'主',
@@ -3851,8 +3861,8 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 			wenji:'问计',
 			wenji2:'问计',
 			wenji_info:'队友的出牌阶段开始时，你可令其交给你一张手牌，若此牌为锦囊牌，则非队友角色计算与你的距离+1直到你的下个回合开始',
-			qunjiang:'屯江',
-			qunjiang_info:'结束阶段开始时，若你于本回合的出牌阶段使用过至少两张牌且未造成过伤害，你可以选择一项：1.你摸两张牌；2.队友摸两张牌',
+			tunjiang:'屯江',
+			tunjiang_info:'结束阶段开始时，若你于本回合的出牌阶段使用过至少两张牌且未造成过伤害，你可以选择一项：1.你摸两张牌；2.队友摸两张牌',
 			xingzhao:'兴棹',
 			xingzhao2:'兴棹',
 			xingzhao3:'兴棹',
@@ -3920,7 +3930,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 			boss_jizhen:'激阵',
 			boss_jizhen_info:'锁定技，结束阶段，你令所有已受伤的己方角色摸一张牌',
 			boss_huodi:'惑敌',
-			boss_huodi_info:'结束阶段，若有武将牌背面朝上的己方角色，你可以令一名敌方角色将其身份牌翻面',
+			boss_huodi_info:'结束阶段，若有武将牌背面朝上的己方角色，你可以令一名敌方角色将其武将牌翻面',
 			boss_jueji:'绝汲',
 			boss_jueji_info:'敌方角色摸牌阶段，若其已受伤，你可以令其少摸一张牌',
 			boss_chuanyun:'穿云',
@@ -4122,6 +4132,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 				temp:true,
 				vanish:true,
 				onremove:function(player){
+					game.addVideo('jiuNode',player,false);
 					if(player.node.jiu){
 						player.node.jiu.delete();
 						player.node.jiu2.delete();
@@ -5284,8 +5295,11 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 								target.addSkill('xionghuangjiu');
 							}
 							else{
+								if(!target.storage.jiu) target.storage.jiu=0;
+								target.storage.jiu++;
 								target.addSkill('jiu');
 							}
+							game.addVideo('jiuNode',target,true);
 							if(!target.node.jiu&&lib.config.jiu_effect){
 								target.node.jiu=ui.create.div('.playerjiu',target.node.avatar);
 								target.node.jiu2=ui.create.div('.playerjiu',target.node.avatar2);

@@ -178,7 +178,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			swd_fuyan:'俱有满腔的热血与爱国心，外表虽然像其他白虎族人一样勇猛，其实是自幼常生病的药罐子。',
 			swd_haidapang:'一目民，能在远处就注意到周遭的状况，一有危险马上逃跑！过于小心翼翼的性格，对于外界既害怕又好奇，总是张着大眼睛四处观望，又像惊弓之鸟似的随时保持警戒，做好逃跑的准备。',
 			swd_shaowei:'生在朱雀国，个性高傲、善变，因与主角战斗受伤，因而忘记过去的朱雀族少女。时而天真迷惘、时而冷漠无情、时而阴狠狡诈，不知何者是她的本性。',
-			swd_youzhao:'名将赵云之孙，枪法凛冽，胆识过人。一心追求建立不世之功业，期许自己能协助大汉讨灭曹贼，克复中原，以光耀祖先之名声。性格冷傲孤高，对自己在「天干十杰」名次排行战之中，竟输给了籍籍轩辕之孤儿焉逢，暗自耿耿为怀不已。执行任务时，出手迅疾猛狠，对敌人毫不留情，是极出色之菁英战士。',
+			swd_youzhao:'名将赵云之孙，枪法凛冽，胆识过人。一心追求建立不世之功业，期许自己能协助大汉讨灭曹贼，克复中原，以光耀祖先之名声。性格冷傲孤高，对自己在「天干十杰」名次排行战之中，竟输给了籍籍无名之孤儿焉逢，暗自耿耿为怀不已。执行任务时，出手迅疾猛狠，对敌人毫不留情，是极出色之菁英战士。',
 			swd_shangzhang:'端蒙之弟，马谡之子。由于姊姊不顾家族劝阻，坚持加入飞羽，他十分担忧她的安危，便努力苦练武艺，历经艰难之后，终于在高手如林的飞羽「天干十杰」争夺战之中，以遍体鳞伤却仍力战不懈之姿，撼动所有战友，最后如愿挤入了十天干最末一个名位。他配属于「飞之部」，在姊姊身边默默守护她。',
 			swd_situqiang:'原籍长安，父亲原是魏国医官，后因治疫不力遭罢，举家放逐。父亲死后，司徒蔷便想运用其自幼所习的知识，行走各地教授防疫知识。',
 			swd_chunyuheng:'字长生。身拥承袭淳于一脉的绝顶医术，却不轻易替人治病。因淳于一族不长命且无法治好自己的怪病，导致性情古怪孤僻，且言谈之间尽是轻生之词，让人难以亲近。最后知晓原因后，得同伴帮助，消除诅咒。',
@@ -258,7 +258,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					}
 					"step 2"
 					if(result.bool){
-						player.chooseUseTarget(game.createCard(result.links[0][2]));
+						player.chooseUseTarget(true,game.createCard(result.links[0][2]));
 					}
 					event.num--;
 					if(event.num>0){
@@ -1357,11 +1357,11 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 						},
 					},
 					shan:{
-						trigger:{player:'chooseToRespondBegin'},
+						trigger:{player:['chooseToRespondBegin','chooseToUseBegin']},
 						filter:function(event,player){
 							if(!player.isLinked()) return false;
 							if(event.responded) return false;
-							if(!event.filterCard({name:'shan'})) return false;
+							if(!event.filterCard({name:'shan'},player,event)) return false;
 							return true;
 						},
 						check:function(event,player){
@@ -1377,6 +1377,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 							trigger.result={bool:true,card:{name:'shan'}}
 						},
 						ai:{
+							respondShan:true,
 							target:function(card,player,target,current){
 								if(!player.isLinked()&&current<0) return 1.5;
 								if(!target.hasFriend()) return;
@@ -1690,7 +1691,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			hyunshen:{
-				trigger:{player:'respond'},
+				trigger:{player:['respond','useCard']},
 				filter:function(event,player){
 					return event.card.name=='shan';
 				},
@@ -1743,7 +1744,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			},
 			hlingbo:{
 				audio:['lingbo',2],
-				trigger:{player:'respond'},
+				trigger:{player:['respond','useCard']},
 				filter:function(event,player){
 					return event.card.name=='shan';
 				},
@@ -2361,7 +2362,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					if(num==0) return false;
 					return num%2==1;
 				},
-				prompt:'将一张手牌当作杀打出',
+				prompt:'将一张手牌当作杀使用或打出',
 				check:function(card){return 6-get.value(card)}
 			},
 			yaotong2:{
@@ -2374,7 +2375,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					if(num==0) return false;
 					return num%2==1;
 				},
-				prompt:'将一张手牌当作闪打出',
+				prompt:'将一张手牌当作闪使用或打出',
 				check:function(card){return 6-get.value(card)}
 			},
 			yaotong3:{
@@ -6426,7 +6427,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			shengong:{
-				trigger:{player:'chooseToRespondBegin'},
+				trigger:{player:['chooseToRespondBegin']},
 				filter:function(event,player){
 					if(event.responded) return false;
 					if(!player.countCards('he')) return false;
@@ -6714,7 +6715,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				filterCard:{color:'red'},
 				viewAs:{name:'shan'},
 				position:'he',
-				prompt:'将一张红色牌当闪打出',
+				prompt:'将一张红色牌当闪使用或打出',
 				check:function(card){return 6-get.value(card)}
 			},
 			duoren:{
