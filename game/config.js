@@ -128,8 +128,8 @@ window.config={
 
 	cards:['standard','ex','extra','classic','basic'],
 	characters:['xys','standard'],
-	connect_characters:['xys','standard'],
-	connect_cards:['standard','ex','extra','classic','basic'],
+	connect_characters:['refresh','shenhua','xinghuoliaoyuan','yijiang','sp','extra','mobile','diy','tw'],
+	connect_cards:['sp','guozhan','huanlekapai'],
 	plays:[],
 	extensions:[],
 	banned:[],
