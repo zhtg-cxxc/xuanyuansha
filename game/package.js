@@ -1,6 +1,7 @@
 window.noname_package={
 	character:{
 		xys:'菊落凤起',
+		xys_test:'风帆共研',
 		standard:'标准',
 		refresh:'界限突破',
 		shenhua:'神话再临',
@@ -12,6 +13,7 @@ window.noname_package={
 		old:'怀旧',
 		diy:'DIY',
 		tw:'外服武将',
+		tps:'太平东南',
 		yxs:'英雄杀',
 		hearth:'炉石传说',
 		gwent:'昆特牌',

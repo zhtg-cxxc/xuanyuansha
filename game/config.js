@@ -128,7 +128,7 @@ window.config={
 
 	cards:['standard','ex','extra','classic','basic'],
 	characters:['xys','standard'],
-	connect_characters:['refresh','shenhua','xinghuoliaoyuan','yijiang','sp','extra','mobile','diy','tw'],
+	connect_characters:['xys_test','refresh','shenhua','xinghuoliaoyuan','yijiang','sp','extra','mobile','diy','tw'],
 	connect_cards:['sp','guozhan','huanlekapai'],
 	plays:[],
 	extensions:[],

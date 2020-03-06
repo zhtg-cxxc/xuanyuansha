@@ -18,7 +18,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_yaohan:'#b信奥看小说',	
 			xy_baohan:'#r吉祥物',
 			xy_baoshengjie:'#b鲍爷',
-			xy_xxx:'#g未定',
+			xy_yangbining:'#g未定',
 			xy_hushengda:'#b鬼才欧皇',
 		},
 		characterIntro:{
@@ -27,7 +27,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_yaohan:'于 V 0.1.0 创建',
 			xy_baohan:'于 V 0.1.0 创建',
 			xy_baoshengjie:'于 V 0.1.1 创建',
-			xy_xxx:'于 V 0.1.1 创建',
+			xy_yangbining:'于 V 0.1.1 创建',
 			xy_hushengda:'于 V 0.1.1 创建',
 		},
 		characterSort:{
@@ -247,7 +247,9 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_chenqing3:{
 				trigger:{player:['dyingAfter']},
 				forced:true,
+				chat:['你们也该注意点儿！','下不为例！'],
 				content:function(){
+				    player.chat(lib.skill.xy_chenqing3.chat[Math.floor((Math.random()*2))]);
 					trigger.player.addSkill('xy_chenqing1');
 					trigger.player.removeSkill('xy_chenqing3');
 				},
@@ -565,7 +567,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			xy_xinning:{
-				trigger:{player:'respond'},
+				trigger:{player:['respond','useCard']},
 				filter:function(event,player){
 					return event.card.name=='shan';
 				},
@@ -789,6 +791,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 
 			xy_teachers:'教职工',
 			xy_201906:'轩辕六班',
+			xy_test:"共研角色",
 			
 			xy_chewang:"车王",
 			xy_chewang_info:"<strong>锁定技</strong>，你处于翻面状态时，除了【杀】、【决斗】、【桃】、【酒】以外，你不能被牌指定为目标。",
@@ -807,19 +810,19 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_chenqing2:"下不为例",
 			xy_chenqing3:"下不为例",
 			xy_chenqing_info:"每当一名角色开始进行死亡结算时，若你的体力上限大于2，则你可以另你的体力上限-1，然后取消其死亡结算并弃置其区域内所有牌，令其体力值为2，然后摸等同其体力上限+1的牌，并获得“警”标志（若其进入濒死状态或受到（失去）足以令其进入濒死状态的伤害（体力），其<strong>直接死亡（跳过濒死和死亡结算）</strong>）。",
-			xy_chengjie:"惩戒",
-			xy_chengjie2:"惩戒",
+			xy_chengjie:"禁言",
+			xy_chengjie2:"禁言",
 			xy_chengjie_info:"<strong>主公技，锁定技</strong>，每当你受到其他角色的伤害时，伤害来源根据你的体力值获得如下效果直到该角色的结束阶段：<br/>≤3：不能使用【杀】；<br/>≤2：非锁定技失效；<br/>≤1：无法使用除红桃牌以外的手牌。",
-			//xy_juebi:"绝璧",xy_juebi1:"绝璧",xy_juebi2:"绝璧",xy_juebi4:"绝璧",
-			xy_juebi:"未定1",xy_juebi1:"未定1",xy_juebi2:"未定1",xy_juebi4:"未定1",
+			xy_juebi:"绝璧",xy_juebi1:"绝璧",xy_juebi2:"绝璧",xy_juebi4:"绝璧",
+			//xy_juebi:"未定1",xy_juebi1:"未定1",xy_juebi2:"未定1",xy_juebi4:"未定1",
 			xy_juebi_info:'你可以选择一至三项：1. 跳过判定阶段和摸牌阶段；2. 跳过出牌阶段并弃置一张装备牌；3. 跳过弃牌阶段并将你的武将牌翻面。你每选择一项，视为你对一名其他角色使用一张没有距离限制的【杀】',
 			xy_guanji:'关机',
 			xy_guanji_info:'当你受到1点扣分后，你可以获得每名其他角色区域里的一张牌，然后你翻面',
 			xy_guanji_info_alter:'当你受到1点扣分后，你可以随机获得每名其他角色区域里的一张牌，然后你翻面',
 			xy_yexing:'爷行',
 			xy_yexing_info:'锁定技，其他角色计算与你的距离时+1',
-			//xy_xinning:'心宁',xy_xinning2:'心宁',
-			xy_xinning:'未定2',xy_xinning2:'未定2',
+			xy_xinning:'心宁',xy_xinning2:'心宁',
+			//xy_xinning:'未定2',xy_xinning2:'未定2',
 			xy_xinning_info:'每当你打出一张闪，你可以令你的防御距离+1；准备阶段，你将累计的防御距离清零，然后摸等量的牌',
 			xy_ouhuang:'欧皇',
 			xy_ouhuang2:'欧皇',
