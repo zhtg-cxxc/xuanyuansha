@@ -504,6 +504,178 @@ Unstable!!!
 				    player.storage.xy_test_ts_xgsq=0;
 				}
 			},
+			xy_test_ts_ttzm:{
+			    enable:'phaseUse',
+				audio:0,
+				filterTarget:function(card,player,target){
+					if(player==target) return false;
+					if(!player.countMark('xy_test_jigeng')||player.countMark('xy_test_jigeng')<2)return false;
+					if (get.mode()=='guozhan') return (target.countCards('h')||target.isUnseen(2));
+					else if (get.mode()=='identity') return (!target.identityShown||target.countCards('h'));
+					else return (target.countCards('h'));
+				},
+				content:function(){
+					"step 0"
+					player.removeMark('xy_test_jigeng',2);
+					if(!player.storage.xy_test_ts_ttzm){
+						player.storage.xy_test_ts_ttzm=[];
+					}
+					player.storage.xy_test_ts_ttzm.add(target);
+					var controls=[];
+					if(target.countCards('h')) controls.push('手牌');
+					if(get.mode()=='guozhan'){
+    					if(target.isUnseen(0)) controls.push('主将');
+    					if(target.isUnseen(1)) controls.push('副将');
+					}else if(get.mode()=='identity'){
+					    controls.push('身份');
+					}
+					if(controls.length>1){
+						player.chooseControl(controls);
+					}
+					if(controls.length==0) event.finish();
+					"step 1"
+					var content;
+					var str=get.translation(target)+'的';
+					if(result.control){
+						if(result.control=='手牌'){
+							content=[str+'手牌',target.getCards('h')];
+							game.log(player,'观看了',target,'的手牌');
+						}
+						else if(result.control=='主将'){
+							content=[str+'主将',[[target.name1],'character']];
+							game.log(player,'观看了',target,'的主将');
+						}
+						else if(result.control=='副将'){
+							content=[str+'副将',[[target.name2],'character']];
+							game.log(player,'观看了',target,'的副将');
+						}
+						else{
+							content=[str+'身份',get.translation(target.identity)];
+							game.log(player,'观看了',target,'的身份');
+						}
+					}
+					else if(target.countCards('h')){
+						content=[str+'手牌',target.getCards('h')];
+						game.log(player,'观看了',target,'的手牌');
+					}
+					else if(get.mode()=='guozhan'){
+					    if(target.isUnseen(0)){
+    						content=[str+'主将',[[target.name1],'character']];
+    						game.log(player,'观看了',target,'的主将');
+    					}
+    					else{
+    						content=[str+'副将',[[target.name2],'character']];
+    						game.log(player,'观看了',target,'的副将');
+    					}
+					}else{
+						content=[str+'身份',get.translation(target.identity)];
+						game.log(player,'观看了',target,'的身份');
+					}
+					player.chooseControl('ok').set('dialog',content);
+				},
+				ai:{
+					order:9.5,
+					wuxie:function(){
+						return 0;
+					},
+					result:{
+						player:function(player,target){
+							if(player.countCards('h')<=player.hp) return 0;
+							if(player.storage.xy_test_ts_ttzm&&player.storage.xy_test_ts_ttzm.contains(target)) return 0;
+							return target.isUnseen()?1:0;
+						}
+					}
+				}
+			},
+			xy_test_ts_bjzx:{
+				trigger:{global:'phaseEnd'},
+				popup:false,
+				audio:false,
+				priority:10,
+				filter:function(event,player){
+				    if (player.hasSkill('xy_test_ts_bjzx2')) return false;
+				    return player.countMark('xy_test_jigeng')>=3;
+				},
+				content:function(){
+					"step 0"
+					player.removeMark('xy_test_jigeng',3);
+					"step 1"
+					event.xy_bool=false;
+					event.xy_str = "进行一个额外回合";
+				    if (player.countMark('xy_test_jigeng')){
+				        player.chooseBool('是否消耗额外的一个“梗”标记以使令其他玩家在该回合内不能使用或打出牌，且非锁定技失效？').ai=function(){
+    						return true;
+    					};
+				    }
+					"step 2"
+					if (result.bool && player.countMark('xy_test_jigeng')){
+				        event.xy_bool=true;
+				        event.xy_str=event.xy_str+"，其他玩家在该回合内不能使用或打出牌，且非锁定技失效。";
+				    }else{
+				        event.xy_str=event.xy_str+"。";
+				    }
+					"step 3"
+					player.markSkillCharacter('xy_test_ts_bjzx',player,'白金之心',event.xy_str);
+					if(event.xy_bool){
+					    player.addSkill('xy_test_ts_bjzx3');
+					}
+					player.addSkill('xy_test_ts_bjzx2');
+					player.insertPhase();
+				}
+			},
+			xy_test_ts_bjzx2:{
+				trigger:{player:['phaseAfter','phaseCancelled']},
+				forced:true,
+				popup:false,
+				audio:false,
+				priority:5,
+				content:function(){
+					player.unmarkSkill('xy_test_ts_bjzx');
+					player.removeSkill('xy_test_ts_bjzx2');
+				}
+			},
+			xy_test_ts_bjzx3:{
+				trigger:{player:['phaseBegin']},
+				forced:true,
+				audio:false,
+				priority:5,
+				content:function(){
+				    "step 0"
+				    event.current=player.next;
+					event.currented=[];
+				    "step 1"
+					if(!event.current.hasSkill('fengyin')){
+						event.current.addTempSkill('fengyin');
+					}
+					event.current.addTempSkill('xy_test_ts_bjzx4');
+					event.current=event.current.next;
+					"step 2"
+					if(event.current!=player&&!event.currented.contains(event.current)){
+						game.delay(0.5);
+						event.goto(1);
+					}
+				}
+			},
+			xy_test_ts_bjzx4:{
+				mark:true,
+				mod:{
+					cardEnabled:function(){
+						return false;
+					},
+					cardUsable:function(){
+						return false;
+					},
+					cardRespondable:function(){
+						return false;
+					},
+					cardSavable:function(){
+						return false;
+					}
+				},
+				intro:{
+					content:'不能使用或打出卡牌'
+				}
+			},
 			xy_test_zhuanli:{
 			    mark:true,
 				intro:{
@@ -673,12 +845,13 @@ Unstable!!!
 			xy_test_jigeng_info:"锁定技，当你受到1点伤害后，你获得一枚“梗”标记；锁定技，当你于弃牌阶段内弃置牌后，你获得等同于失去的牌数量的“梗”标记。",
 			xy_test_tishen:"替身",
 			xy_test_tishen_info:"觉醒技，准备阶段开始时，若你的“梗”标记数不小于4，你减1点体力上限，然后选择获得【性感手枪】、【天堂之门】、【白金之星】、【疯狂钻石】、【炸弹皇后】中的一个技能（替身）。",
-			xy_test_ts_xgsq:"性感手枪",
-			xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标；每当你使用一张【杀】时，你可以消耗Y（等同于指定目标数）的“梗”标记使该【杀】无法被响应；每当你造成一次伤害后，你可以消耗1个“梗”标记使该伤害+1。",
+			xy_test_ts_xgsq:"性感手枪",xy_test_ts_xgsq2:"性感手枪",xy_test_ts_xgsq3:"性感手枪",
+			//xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标；每当你使用一张【杀】时，你可以消耗Y（等同于指定目标数）的“梗”标记使该【杀】无法被响应；每当你造成一次伤害后，你可以消耗1个“梗”标记使该伤害+1。",
+			xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标。",
 			xy_test_ts_ttzm:"天堂之门",
 			xy_test_ts_ttzm_info:"出牌阶段，你可以消耗2个“梗”标记以查看一名角色的身份（国战模式下为该角色的势力）或手牌，若你选择观看手牌，则你可以用自己的一张手牌替换其中的一张牌。",
-			xy_test_ts_bjzx:"白金之心",
-			xy_test_ts_bjzx_info:"一名角色的结束阶段开始时，你可以消耗3个“梗”标记以将除你之外的所有角色翻面。",
+			xy_test_ts_bjzx:"白金之心",xy_test_ts_bjzx2:"白金之心",xy_test_ts_bjzx3:"白金之心",xy_test_ts_bjzx4:"白金之心",
+			xy_test_ts_bjzx_info:"一名角色的结束阶段开始时，你可以消耗3个“梗”标记并获得一个额外回合；你可额外消耗1个“梗”令其他玩家在该回合内不能使用或打出牌，且非锁定技失效。你不能在该额外的回合内施放此技能。",
 			xy_test_ts_fkzs:"疯狂钻石",
 			xy_test_ts_fkzs_info:"当你对一名角色造成伤害后，你可以消耗4个“梗”标记以将其体力值补充至体力上限（最多变化3点），重置该角色并使其翻回正面，然后将其手牌补至4张。",
 			xy_test_ts_zdhh:"炸弹皇后",
