@@ -7,28 +7,62 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_test_yaohan:['male','shen',3,['xy_test_chewei']],
 			xy_test_wuhaibin:['male','shen',3,['xy_test_yihuo'],['zhu']],
 			xy_junguan:['male','shen',4,['xy_test_haofang','xy_test_junxun','xy_test_zhongguo'],['zhu']],
-			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']]
+			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']],
+			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']]
 		},
 		characterTitle:{
 		    xy_test_yaohan:"#r征求共研",
 		    xy_test_wuhaibin:"#r征求共研",
 		    xy_junguan:"#r征求共研",
-		    xy_test_fangzihao:"#r征求共研"
+		    xy_test_fangzihao:"#r征求共研",
+			xy_test_wufengxing:'#b物理一定要学好'
 		},
 		characterIntro:{
 		    xy_test_yaohan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：防御、干扰。<br/><strong>共研重点</strong>：角色强度，与现有角色相比的优劣。",
 		    xy_test_wuhaibin:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：辅助、控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>该角色还需要更多技能，欢迎大家献计献策！</strong>",
 		    xy_junguan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：强制控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>特别注意</strong>：因为不同班的军官是不同的，大家可通过切换皮肤获得最适合你的军官，若没有你们班的军官，请将图片上传到网盘后将分享链接附在<a href='https://zhtg.red/xys-devote/'>《对轩辕杀做出贡献——帮助我们的开发！》</a>！",
-		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。"
+		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
+			xy_test_wufengxing:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、控制、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。"
 		},
 		characterSort:{
 			xys_test:{
-				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao'],
+				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao','xy_test_wufengxing'],
 				xy_test_post:[],
-				
 			},
 		},
 		skill:{
+			xy_test_xuanfu:{
+/*				audio:2,
+				trigger:{player:'loseEnd'},
+				frequent:true,
+				filter:function(event,player){
+					if(player.countCards('h')) return false;
+					for(var i=0;i<event.cards.length;i++){
+						if(event.cards[i].original=='h') return true;
+					}
+					return false;
+				},
+				content:function(){
+					player.draw();
+
+				},
+				ai:{
+					threaten:0.8,
+					effect:{
+						target:function(card){
+							if(card.name=='guohe'||card.name=='liuxinghuoyu') return 0.5;
+						}
+					},
+					noh:true,
+					skillTagFilter:function(player,tag){
+						if(tag=='noh'){
+							if(player.countCards('h')!=1) return false;
+						}
+					}
+				}
+Unstable!!!
+*/
+			},
 		    xy_test_chewei:{
 				audio:'jushou',
 				group:['xy_test_chewei3'],
@@ -611,6 +645,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_wuhaibin:"研吴海斌",
 		    xy_junguan:"研教官",
 		    xy_test_fangzihao:"研方梓豪",
+			xy_test_wufengxing:"研吴凤星",
 		    
 		    xy_test_post:"网友投稿",
 		    xy_test_dev:"开发组公测",
@@ -618,6 +653,10 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_chewei:"车位",
 		    xy_test_chewei2:"车位",
 		    xy_test_chewei3:"车位",
+			xy_test_xuanfu:"炫富",
+			xy_test_xuanfu_info:"假如你失去了最后一张手牌，第一次你可以摸2~4张手牌，第二次可以摸1~3张手牌",
+			xy_test_manfen:"满分",
+			xy_test_manfen_info:"",
 		    xy_test_chewei_info:"结束阶段，你可以获得三张牌并弃置一张手牌，若你选择了一张装备牌，则改为使用之，然后你将你的武将牌翻面；锁定技，当你处于翻面状态时，不计入距离的计算且不能使用牌且不是牌的合法目标且不能失去或回复体力或受到伤害。",
 		    xy_test_hunge:"魂歌",
 		    xy_test_hunge_info:"【这个技能我还没想好丫】吴老师总喜欢在地理课前放一些灵魂歌手唱的关于地理的歌……",
