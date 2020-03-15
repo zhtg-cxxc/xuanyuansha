@@ -774,7 +774,7 @@ Unstable!!!
 				    if (trigger.source){
 				        player.storage.xy_test_ts_zdhh1.push(trigger.source);
 				    }
-					player.chooseTarget("请选择炸弹皇后的目标",true,function(card,player,target){
+					player.chooseTarget("请选择杀手皇后的目标",true,function(card,player,target){
 						return player.storage.xy_test_ts_zdhh1.contains(target);
 					}).ai=function(player,target){
 						var num=target.maxHp - target.hp;
@@ -974,7 +974,7 @@ Unstable!!!
 			xy_test_jigeng2:"集梗",
 			xy_test_jigeng_info:"锁定技，当你受到1点伤害后，你获得一枚“梗”标记；锁定技，当你于弃牌阶段内弃置牌后，你获得等同于失去的牌数量的“梗”标记。",
 			xy_test_tishen:"替身",
-			xy_test_tishen_info:"觉醒技，准备阶段开始时，若你的“梗”标记数不小于4，你减1点体力上限，然后选择获得【性感手枪】、【天堂之门】、【白金之星】、【疯狂钻石】、【炸弹皇后】中的一个技能（替身）。",
+			xy_test_tishen_info:"觉醒技，准备阶段开始时，若你的“梗”标记数不小于4，你减1点体力上限，然后选择获得【性感手枪】、【天堂之门】、【白金之星】、【疯狂钻石】、【杀手皇后】中的一个技能（替身）。",
 			xy_test_ts_xgsq:"性感手枪",xy_test_ts_xgsq2:"性感手枪",xy_test_ts_xgsq3:"性感手枪",xy_test_ts_xgsq4:"性感手枪",
 			//xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标；每当你使用一张【杀】时，你可以消耗Y（等同于指定目标数）的“梗”标记使该【杀】无法被响应；每当你造成一次伤害后，你可以消耗1个“梗”标记使该伤害+1。",
 			xy_test_ts_xgsq_info:"锁定技，你造成的伤害视为流失体力。；出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标。",
@@ -984,8 +984,8 @@ Unstable!!!
 			xy_test_ts_bjzx_info:"一名角色的结束阶段开始时，你可以消耗3个“梗”标记并获得一个额外回合；你可额外消耗1个“梗”令其他玩家在该回合内不能使用或打出牌，且非锁定技失效。你不能在该额外的回合内施放此技能。",
 			xy_test_ts_fkzs:"疯狂钻石",
 			xy_test_ts_fkzs_info:"任意角色的结束阶段时，你可以消耗4个“梗”标记以将其体力值补充至体力上限（最多变化3点），重置该角色并使其翻回正面，然后将其手牌补至4张。",
-			xy_test_ts_zdhh:"炸弹皇后",
-			xy_test_ts_zdhh_info:"出牌阶段，你可以消耗5个“梗”标记并指定一名没有“炸”标记的玩家获得一枚“炸”标记（指定后不可见），有“炸”标记的玩家受到非“炸弹皇后”造成的伤害时，你可让该玩家或伤害来源受到3点火焰伤害（先结算“炸弹皇后”造成的伤害），然后移去“炸”标记。",
+			xy_test_ts_zdhh:"杀手皇后",
+			xy_test_ts_zdhh_info:"出牌阶段，你可以消耗5个“梗”标记并指定一名没有“炸”标记的玩家获得一枚“炸”标记（指定后不可见），有“炸”标记的玩家受到非“杀手皇后”造成的伤害时，你可让该玩家或伤害来源受到3点火焰伤害（先结算“杀手皇后”造成的伤害），然后移去“炸”标记。",
 			xy_test_zhuanli:"专利",xy_test_zhuanli1:"专利",xy_test_zhuanli3:"专利",
 			xy_test_zhuanli_info:"锁定技，每当你使用或打出一张非装备牌之后，若你是本轮游戏第一个使用或打出该牌的角色，你可以选择弃置一张牌已对其申请专利；若其他角色使用或打出了你已经申请专利的牌之后，其需选择将一张牌交给你，否则该牌无效。",
 		},
