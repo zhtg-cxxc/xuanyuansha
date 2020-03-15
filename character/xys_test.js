@@ -4,33 +4,47 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		name:'xys_test',
 		connect:true,
 		character:{
+		    //-----zhtg-----
 			xy_test_yaohan:['male','shen',3,['xy_test_chewei']],
 			xy_test_wuhaibin:['male','shen',3,['xy_test_yihuo'],['zhu']],
 			xy_junguan:['male','shen',4,['xy_test_haofang','xy_test_junxun','xy_test_zhongguo'],['zhu']],
 			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']],
-			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']]
+			xy_test_chenghao:['male','shen',4,['xy_test_jigeng','xy_test_tishen']],
+			
+			//-----fzh------
+			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']],
+			
 		},
 		characterTitle:{
+		    //-----zhtg-----
 		    xy_test_yaohan:"#r征求共研",
 		    xy_test_wuhaibin:"#r征求共研",
 		    xy_junguan:"#r征求共研",
 		    xy_test_fangzihao:"#r征求共研",
+		    xy_test_chenghao:"#r征求共研",
+		    
+		    //-----fzh------
 			xy_test_wufengxing:'#b物理一定要学好'
 		},
 		characterIntro:{
+		    //-----zhtg-----
 		    xy_test_yaohan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：防御、干扰。<br/><strong>共研重点</strong>：角色强度，与现有角色相比的优劣。",
 		    xy_test_wuhaibin:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：辅助、控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>该角色还需要更多技能，欢迎大家献计献策！</strong>",
 		    xy_junguan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：强制控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>特别注意</strong>：因为不同班的军官是不同的，大家可通过切换皮肤获得最适合你的军官，若没有你们班的军官，请将图片上传到网盘后将分享链接附在<a href='https://zhtg.red/xys-devote/'>《对轩辕杀做出贡献——帮助我们的开发！》</a>！",
 		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
+			xy_test_chenghao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：替身使者、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合JOJO相关设定。",
+			
+			//-----fzh------
 			xy_test_wufengxing:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、控制、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。"
 		},
 		characterSort:{
 			xys_test:{
-				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao','xy_test_wufengxing'],
+				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao','xy_test_chenghao','xy_test_wufengxing'],
 				xy_test_post:[],
 			},
 		},
 		skill:{
+		    //-----fzh------
 			xy_test_xuanfu:{
 /*				audio:2,
 				trigger:{player:'loseEnd'},
@@ -63,6 +77,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 Unstable!!!
 */
 			},
+		    
+		    //-----zhtg-----
 		    xy_test_chewei:{
 				audio:'jushou',
 				group:['xy_test_chewei3'],
@@ -357,6 +373,13 @@ Unstable!!!
 				forced:true,
 				unique:true,
 				audio:true,
+				derivation:[
+				    "xy_test_ts_xgsq",
+				    "xy_test_ts_ttzm",
+				    "xy_test_ts_bjzx",
+				    "xy_test_ts_fkzs",
+				    "xy_test_ts_zdhh"
+				],
 				filter:function(event,player){
 					return player.countMark('xy_test_jigeng')>=4;
 				},
@@ -366,7 +389,7 @@ Unstable!!!
 					player.chooseControl(get.translation("xy_test_ts_xgsq"),get.translation("xy_test_ts_ttzm"),get.translation("xy_test_ts_bjzx"),get.translation("xy_test_ts_fkzs"),get.translation("xy_test_ts_zdhh"),function(){
     					var randNum=Math.random();
     					if(randNum<0.25){
-    					    return get.translation("xy_test_ts_xgsq");
+    					    return get.translation("xy_test_ts_ttzm");
     					}else if(randNum<0.5){
     					    return get.translation("xy_test_ts_bjzx");
     					}else if(randNum<0.75){
@@ -447,6 +470,7 @@ Unstable!!!
 				//trigger:{player:'useCard1'},
 				//firstDo:true,
 				enable:'phaseUse',
+				group:['xy_test_ts_xgsq4'],
 				filter:function(event,player){
 					/*if(event.card.name!='sha') return false;
 					var card=event.card;
@@ -502,6 +526,20 @@ Unstable!!!
 				    player.removeSkill('xy_test_ts_xgsq2');
 				    player.removeSkill('xy_test_ts_xgsq3');
 				    player.storage.xy_test_ts_xgsq=0;
+				}
+			},
+			xy_test_ts_xgsq4:{
+				trigger:{source:'damageBefore'},
+				forced:true,
+				audio:2,
+				//priority:16,
+				check:function(){return false;},
+				content:function(){
+					trigger.cancel();
+					trigger.player.loseHp(trigger.num);
+				},
+				ai:{
+					jueqing:true
 				}
 			},
 			xy_test_ts_ttzm:{
@@ -644,6 +682,7 @@ Unstable!!!
 				    event.current=player.next;
 					event.currented=[];
 				    "step 1"
+					event.currented.push(event.current);
 					if(!event.current.hasSkill('fengyin')){
 						event.current.addTempSkill('fengyin');
 					}
@@ -674,6 +713,87 @@ Unstable!!!
 				},
 				intro:{
 					content:'不能使用或打出卡牌'
+				}
+			},
+			xy_test_ts_fkzs:{
+				trigger:{global:['phaseEnd']},
+				audio:false,
+				filter:function(event,player){
+				    return player.countMark('xy_test_jigeng')>=4;
+				},
+				content:function(){
+				    player.removeMark('xy_test_jigeng',4);
+				    _status.currentPhase.recover(Math.min(3,_status.currentPhase.maxHp-_status.currentPhase.hp));
+				    if(_status.currentPhase.isTurnedOver())_status.currentPhase.turnOver();
+				    _status.currentPhase.draw(Math.min(0,4-_status.currentPhase.countCards("h")));
+				},
+				ai:{
+					order:9.5,
+					result:{
+						player:function(event,player){
+							if(_status.currentPhase.maxHp-_status.currentPhase.hp>=3) return 5;
+							if(_status.currentPhase.countCards("h")<4) return -0.5;
+							return -1;
+						}
+					}
+				}
+			},
+			xy_test_ts_zdhh:{
+			    enable:'phaseUse',
+				audio:0,
+				group:['xy_test_ts_zdhh1'],
+				init:function(player){
+					player.storage.xy_test_ts_zdhh=[];
+				},
+				filterTarget:function(card,player,target){
+					if(!player.countMark('xy_test_jigeng')||player.countMark('xy_test_jigeng')<5)return false;
+					return !player.storage.xy_test_ts_zdhh.contains(target);
+				},
+				content:function(){
+					player.removeMark('xy_test_jigeng',5);
+					player.storage.xy_test_ts_zdhh.push(target);
+				},
+				ai:{
+					result:{
+					    target:-5
+					}
+				}
+			},
+			xy_test_ts_zdhh1:{
+			    trigger:{global:'damageBefore'},
+				audio:0,
+				forced:true,
+				filter:function(event,player){
+				    if(event.parent.name=='xy_test_ts_zdhh1')return false;
+				    if(event.parent.name=='xy_test_ts_zdhh1'&&event.parent.parent.name=='xy_test_ts_zdhh1')return false;
+					return player.storage.xy_test_ts_zdhh.contains(event.player);
+				},
+				content:function(){
+				    "step 0"
+				    player.storage.xy_test_ts_zdhh1=[trigger.player];
+				    if (trigger.source){
+				        player.storage.xy_test_ts_zdhh1.push(trigger.source);
+				    }
+					player.chooseTarget("请选择炸弹皇后的目标",true,function(card,player,target){
+						return player.storage.xy_test_ts_zdhh1.contains(target);
+					}).ai=function(player,target){
+						var num=target.maxHp - target.hp;
+						var att=get.attitude(player,target);
+						return num*att;
+					};
+				    "step 1"
+				    var target=result.targets[0];
+				    player.storage.xy_test_ts_zdhh1=[];
+				    player.line(target,'fire');
+					player.logSkill('xy_test_ts_zdhh',target);
+					target.damage(3,'fire',player);
+				    "step 2"
+					for(var i=0;i<player.storage.xy_test_ts_zdhh.length;i++){
+					    if(player.storage.xy_test_ts_zdhh[i]==trigger.player){
+					        player.storage.xy_test_ts_zdhh.splice(i,1);
+					        break;
+					    }
+					}
 				}
 			},
 			xy_test_zhuanli:{
@@ -813,22 +933,32 @@ Unstable!!!
 			},
 		},
 		translate:{
+		    /********Character*******/
+		    //-----zhtg-----
 		    xy_test_yaohan:"研姚涵",
 		    xy_test_wuhaibin:"研吴海斌",
 		    xy_junguan:"研教官",
 		    xy_test_fangzihao:"研方梓豪",
+		    xy_test_chenghao:"研程浩",
+		    
+		    //-----fzh------
 			xy_test_wufengxing:"研吴凤星",
 		    
+		    /********Categories*******/
 		    xy_test_post:"网友投稿",
 		    xy_test_dev:"开发组公测",
 		    
-		    xy_test_chewei:"车位",
-		    xy_test_chewei2:"车位",
-		    xy_test_chewei3:"车位",
+		    /********Skills*******/
+		    //-----fzh------
 			xy_test_xuanfu:"炫富",
 			xy_test_xuanfu_info:"假如你失去了最后一张手牌，第一次你可以摸2~4张手牌，第二次可以摸1~3张手牌",
 			xy_test_manfen:"满分",
 			xy_test_manfen_info:"",
+		    
+		    //-----zhtg-----
+		    xy_test_chewei:"车位",
+		    xy_test_chewei2:"车位",
+		    xy_test_chewei3:"车位",
 		    xy_test_chewei_info:"结束阶段，你可以获得三张牌并弃置一张手牌，若你选择了一张装备牌，则改为使用之，然后你将你的武将牌翻面；锁定技，当你处于翻面状态时，不计入距离的计算且不能使用牌且不是牌的合法目标且不能失去或回复体力或受到伤害。",
 		    xy_test_hunge:"魂歌",
 		    xy_test_hunge_info:"【这个技能我还没想好丫】吴老师总喜欢在地理课前放一些灵魂歌手唱的关于地理的歌……",
@@ -845,17 +975,17 @@ Unstable!!!
 			xy_test_jigeng_info:"锁定技，当你受到1点伤害后，你获得一枚“梗”标记；锁定技，当你于弃牌阶段内弃置牌后，你获得等同于失去的牌数量的“梗”标记。",
 			xy_test_tishen:"替身",
 			xy_test_tishen_info:"觉醒技，准备阶段开始时，若你的“梗”标记数不小于4，你减1点体力上限，然后选择获得【性感手枪】、【天堂之门】、【白金之星】、【疯狂钻石】、【炸弹皇后】中的一个技能（替身）。",
-			xy_test_ts_xgsq:"性感手枪",xy_test_ts_xgsq2:"性感手枪",xy_test_ts_xgsq3:"性感手枪",
+			xy_test_ts_xgsq:"性感手枪",xy_test_ts_xgsq2:"性感手枪",xy_test_ts_xgsq3:"性感手枪",xy_test_ts_xgsq4:"性感手枪",
 			//xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标；每当你使用一张【杀】时，你可以消耗Y（等同于指定目标数）的“梗”标记使该【杀】无法被响应；每当你造成一次伤害后，你可以消耗1个“梗”标记使该伤害+1。",
-			xy_test_ts_xgsq_info:"出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标。",
+			xy_test_ts_xgsq_info:"锁定技，你造成的伤害视为流失体力。；出牌阶段，你可以消耗X点“梗”标记使你使用的下一张【杀】可多指定X个目标。",
 			xy_test_ts_ttzm:"天堂之门",
 			xy_test_ts_ttzm_info:"出牌阶段，你可以消耗2个“梗”标记以查看一名角色的身份（国战模式下为该角色的势力）或手牌，若你选择观看手牌，则你可以用自己的一张手牌替换其中的一张牌。",
 			xy_test_ts_bjzx:"白金之心",xy_test_ts_bjzx2:"白金之心",xy_test_ts_bjzx3:"白金之心",xy_test_ts_bjzx4:"白金之心",
 			xy_test_ts_bjzx_info:"一名角色的结束阶段开始时，你可以消耗3个“梗”标记并获得一个额外回合；你可额外消耗1个“梗”令其他玩家在该回合内不能使用或打出牌，且非锁定技失效。你不能在该额外的回合内施放此技能。",
 			xy_test_ts_fkzs:"疯狂钻石",
-			xy_test_ts_fkzs_info:"当你对一名角色造成伤害后，你可以消耗4个“梗”标记以将其体力值补充至体力上限（最多变化3点），重置该角色并使其翻回正面，然后将其手牌补至4张。",
+			xy_test_ts_fkzs_info:"任意角色的结束阶段时，你可以消耗4个“梗”标记以将其体力值补充至体力上限（最多变化3点），重置该角色并使其翻回正面，然后将其手牌补至4张。",
 			xy_test_ts_zdhh:"炸弹皇后",
-			xy_test_ts_zdhh_info:"出牌阶段，你可以消耗5个“梗”标记并指定一名没有“炸”标记的玩家获得一枚“炸”标记（指定后不可见），有“炸”标记的玩家受到伤害时，你可让该玩家或伤害来源受到3点火焰伤害（先结算“炸弹皇后”造成的伤害），然后移去“炸”标记。",
+			xy_test_ts_zdhh_info:"出牌阶段，你可以消耗5个“梗”标记并指定一名没有“炸”标记的玩家获得一枚“炸”标记（指定后不可见），有“炸”标记的玩家受到非“炸弹皇后”造成的伤害时，你可让该玩家或伤害来源受到3点火焰伤害（先结算“炸弹皇后”造成的伤害），然后移去“炸”标记。",
 			xy_test_zhuanli:"专利",xy_test_zhuanli1:"专利",xy_test_zhuanli3:"专利",
 			xy_test_zhuanli_info:"锁定技，每当你使用或打出一张非装备牌之后，若你是本轮游戏第一个使用或打出该牌的角色，你可以选择弃置一张牌已对其申请专利；若其他角色使用或打出了你已经申请专利的牌之后，其需选择将一张牌交给你，否则该牌无效。",
 		},

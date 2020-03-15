@@ -240,6 +240,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_chenqing2:{
 				trigger:{player:['dyingBegin']},
 				forced:true,
+				priority:10000000,
 				content:function(){
 					player.die();
 				},
