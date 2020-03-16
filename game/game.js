@@ -20,12 +20,15 @@
 		dying:[]
 	};
 	var lib={
-		configprefix:'xys_0.9_',
+	    //modified by zhtg BEGIN
+		configprefix:'xys_0.1_',
 		versionOL:27,
-		updateURL:'https://raw.githubusercontent.com/zhonghuatu/xuanyuansha',
-		mirrorURL:'https://raw.githubusercontent.com/libccy/noname',
+		updateURL:'https://cdn.jsdelivr.net/gh/zhonghuatu/xuanyuansha',
+		mirrorURL:'https://raw.githubusercontent.com/zhonghuatu/xuanyuansha',
 		hallURL:'xys.zhtg.red',
-		assetURL:'',
+		assetURL:'https://cdn.jsdelivr.net/gh/zhonghuatu/xuanyuansha/',
+		extensionURL:'https://raw.githubusercontent.com/libccy/noname-extension/master/',
+		//modified by zhtg END
 		changeLog:[],
 		updates:[],
 		canvasUpdates:[],
@@ -38136,7 +38139,7 @@
 						importExtension.style.textAlign='left';
 						ui.create.div('','<input type="file" accept="application/zip" style="width:153px"><button>确定</button>',importExtension);
 
-						var extensionURL=lib.updateURL.replace(/noname/,'noname-extension')+'/master/';
+						var extensionURL=lib.extensionURL;
 
 						var reloadnode=ui.create.div('.config.toggle.pointerdiv','重新启动',page,game.reload);
 						reloadnode.style.display='none';
@@ -38298,6 +38301,23 @@
 								list.randomSort();
 								delete window.extension;
 								loading.style.display='none';
+								//modified by zhtg BEGIN
+								var node=ui.create.div('.videonode.menubutton.extension.large',page,clickExtension);
+								ui.create.div('.caption',"拓展注意事项",node);
+								ui.create.div('.text.author','关于拓展列表<span>(2019.3.16)</span>',node);
+								var string="<br/>目前所有拓展均来自原项目“无名杀”，感谢为这个项目付出的所有人。若各位有什么好的想法，也可以自己写一个拓展然后点击下方“参与讨论”分享给更多人！";
+								if(game.download){
+								    string="<b>对于客户端版本，所有拓展在点击“下载拓展”后均可以自动保存至本地。</b>"+string;
+								}else{
+								    string="<b>对于网页版本，在点击“下载拓展”后您需要前往网盘下载并手动导入。</b>"+string;
+								}
+								ui.create.div('.text',string,node);
+    							var linknode=ui.create.div('.text',node);
+    							ui.create.node('span',linknode);
+    							ui.create.node('span.hrefnode','参与讨论',function(){
+    								game.open(this.link);
+    							},linknode).link="https://zhtg.red/tag/xys/";
+								//modified by zhtg END
 								for(var i =0;i<list.length;i++){
 									var node=ui.create.div('.videonode.menubutton.extension.large',page,clickExtension);
 									ui.create.div('.caption',list[i].name,node);
@@ -38374,10 +38394,12 @@
 								});
 							}
 							else{
-								lib.init.js(extensionURL.replace(/raw\.githubusercontent\.com/,'rawgit.com')+'catalog.js',null,loaded,function(){
+								//modified by zhtg BEGIN
+								lib.init.js(extensionURL.replace(/raw\.githubusercontent\.com/,'cdn.jsdelivr.net/gh').replace(/\/master/,'')+'catalog.js',null,loaded,function(){
 									delete window.extension;
 									loading.innerHTML='连接失败';
 								});
+								//modified by zhtg END
 							}
 						};
 					}());
@@ -38468,10 +38490,10 @@
 						var li3=document.createElement('li');
 						var trimurl=function(str){
 							if(str==lib.updateURL){
-								return 'GitHub';
+								return 'jsDelivr';
 							}
 							if(str==lib.mirrorURL){
-								return 'GitLab';
+								return 'GitHub';
 							}
 							var index;
 							index=str.indexOf('://');
