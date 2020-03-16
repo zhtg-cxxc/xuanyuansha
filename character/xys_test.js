@@ -11,8 +11,9 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']],
 			xy_test_chenghao:['male','shen',4,['xy_test_jigeng','xy_test_tishen']],
 			
-			//-----fzh------
+			//-----bb------
 			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']],
+			xy_test_qiuruiang:['male','shen',3,['xy_test_mengtu']],
 			
 		},
 		characterTitle:{
@@ -24,7 +25,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_chenghao:"#r征求共研",
 		    
 		    //-----fzh------
-			xy_test_wufengxing:'#b物理一定要学好'
+			xy_test_wufengxing:'#b物理一定要学好',
+			xy_test_qiuruiang:'#r征求共研'
 		},
 		characterIntro:{
 		    //-----zhtg-----
@@ -34,20 +36,25 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
 			xy_test_chenghao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：替身使者、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合JOJO相关设定。",
 			
-			//-----fzh------
-			xy_test_wufengxing:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、控制、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。"
+			//-----bb------
+			xy_test_wufengxing:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、控制、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
+			xy_test_qiuruiang:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、干扰。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。"
 		},
 		characterSort:{
 			xys_test:{
-				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao','xy_test_chenghao','xy_test_wufengxing'],
+				xy_test_dev:['xy_test_yaohan','xy_test_wuhaibin','xy_junguan','xy_test_fangzihao','xy_test_chenghao','xy_test_wufengxing','xy_test_qiuruiang'],
 				xy_test_post:[],
 			},
 		},
 		skill:{
-		    //-----fzh------
+		    //-----bb------
 			xy_test_xuanfu:{
-/*				audio:2,
+				//Unstable!!!Use as your own risk!
+				audio:2,
 				trigger:{player:'loseEnd'},
+				init:function(player,skill){
+					if(!player.storage[skill]) player.storage[skill]=1;
+				},
 				frequent:true,
 				filter:function(event,player){
 					if(player.countCards('h')) return false;
@@ -57,8 +64,28 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					return false;
 				},
 				content:function(){
-					player.draw();
-
+					var xuanfu=0;
+					switch (player.storage.xy_test_xuanfu){
+						case 1:{
+							xuanfu=Math.floor(Math.random()*3+2);
+							player.draw(xuanfu);
+							game.log(player,'增加了',xuanfu,'张手牌');
+							break;
+							}
+						case 2:{
+							xuanfu=Math.floor(Math.random()*3+1);
+							player.draw(xuanfu);
+							game.log(player,'增加了',xuanfu,'张手牌');
+							break;
+							}
+						case 3:{
+							player.draw();
+							game.log(player,'增加了一张手牌');
+							break;
+						}
+						default:game.log('您已经没有多摸牌的机会了');
+					}
+					player.storage.xy_test_xuanfu++;
 				},
 				ai:{
 					threaten:0.8,
@@ -74,10 +101,38 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 						}
 					}
 				}
-Unstable!!!
-*/
 			},
-		    
+		    xy_test_manfen:{
+				//Unstable too!!!Use as your own risk!
+				audio:2,
+				trigger:{global:'chooseToUseBegin'},
+				init:function(player,skill){
+					if(!player.storage[skill]) player.storage[skill]=10;
+					if(Math.random()*player.storage[skill]<=6) player.storage.xy_test_manfen_bool=true;
+				},
+				filter:function(event,player){return event.player.maxHp>0&&event.player.maxHp-event.player.hp==1&&player.storage.xy_test_manfen_bool},
+				content:function(){
+					trigger.player.recover();
+					player.storage.xy_test_manfen++;
+				},
+				ai:{
+					threaten:0.8,
+					effect:{
+						target:function(card){
+							if(card.name=='guohe'||card.name=='liuxinghuoyu') return 0.5;
+						}
+					},
+					noh:true,
+					skillTagFilter:function(player,tag){
+						if(tag=='noh'){
+							if(player.countCards('h')!=1) return false;
+						}
+					}
+				}
+			},
+			xy_test_mengtu:{
+			
+			},
 		    //-----zhtg-----
 		    xy_test_chewei:{
 				audio:'jushou',
@@ -941,19 +996,22 @@ Unstable!!!
 		    xy_test_fangzihao:"研方梓豪",
 		    xy_test_chenghao:"研程浩",
 		    
-		    //-----fzh------
+		    //-----bb------
 			xy_test_wufengxing:"研吴凤星",
+			xy_test_qiuruiang:"研仇瑞昂",
 		    
 		    /********Categories*******/
 		    xy_test_post:"网友投稿",
 		    xy_test_dev:"开发组公测",
 		    
 		    /********Skills*******/
-		    //-----fzh------
+		    //-----bb------
 			xy_test_xuanfu:"炫富",
-			xy_test_xuanfu_info:"假如你失去了最后一张手牌，第一次你可以摸2~4张手牌，第二次可以摸1~3张手牌",
+			xy_test_xuanfu_info:"假如你失去了最后一张手牌，第一次你可以摸2~4张手牌，第二次可以摸1~3张手牌，第三次可以摸一张手牌",
 			xy_test_manfen:"满分",
-			xy_test_manfen_info:"",
+			xy_test_manfen_info:"当一名角色仅失去一点体力时，你有几率可以恢复其体力，但每一次使用过后恢复的几率会下降",
+			xy_test_mengtu:"萌图",
+			xy_test_mengtu_info:"working...",
 		    
 		    //-----zhtg-----
 		    xy_test_chewei:"车位",
