@@ -13,7 +13,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			
 			//-----bb------
 			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']],
-			xy_test_qiuruiang:['male','shen',3,['xy_test_mengtu']],
+			//xy_test_qiuruiang:['male','shen',3,['xy_test_mengtu']],
 			
 		},
 		characterTitle:{
