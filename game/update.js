@@ -8,5 +8,10 @@ window.noname_update={
 		'修复“获取拓展”功能，玩家可以从此直接下载心仪的拓展增加游戏可玩性。'
 	],
 	files:[
+		'character/xys.js',
+		'character/xys_test.js',
+		'game/asset.js',
+		'game/game.js',
+		'game/source.js'
 	]
 };
