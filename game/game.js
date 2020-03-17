@@ -23,10 +23,10 @@
 	    //modified by zhtg BEGIN
 		configprefix:'xys_0.1_',
 		versionOL:27,
-		updateURL:'https://cdn.jsdelivr.net/gh/zhonghuatu/xuanyuansha',
+		updateURL:'https://code.aliyun.com/zhonghuatu/xuanyuansha/raw',
 		mirrorURL:'https://raw.githubusercontent.com/zhonghuatu/xuanyuansha',
 		hallURL:'xys.zhtg.red',
-		assetURL:'https://cdn.jsdelivr.net/gh/zhonghuatu/xuanyuansha/',
+		assetURL:'',//'https://cdn.jsdelivr.net/gh/zhonghuatu/xuanyuansha/',
 		extensionURL:'https://raw.githubusercontent.com/libccy/noname-extension/master/',
 		//modified by zhtg END
 		changeLog:[],
@@ -38490,7 +38490,7 @@
 						var li3=document.createElement('li');
 						var trimurl=function(str){
 							if(str==lib.updateURL){
-								return 'jsDelivr';
+								return 'Aliyun';
 							}
 							if(str==lib.mirrorURL){
 								return 'GitHub';
