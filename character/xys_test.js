@@ -105,15 +105,16 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_manfen:{
 				//Unstable too!!!Use as your own risk!
 				audio:2,
-				trigger:{global:'chooseToUseBegin'},
+				trigger:{global:'damageEnd'},
 				init:function(player,skill){
-					if(!player.storage[skill]) player.storage[skill]=10;
-					if(Math.random()*player.storage[skill]<=6) player.storage.xy_test_manfen_bool=true;
+					if(!player.storage[skill]) player.storage[skill]=8;
 				},
-				filter:function(event,player){return event.player.maxHp>0&&event.player.maxHp-event.player.hp==1&&player.storage.xy_test_manfen_bool},
+				filter:function(event,player){return event.player.maxHp>0&&event.player.maxHp-event.player.hp==1},
 				content:function(){
+				if(Math.random()*player.storage.xy_test_manfen<=6){
 					trigger.player.recover();
 					player.storage.xy_test_manfen++;
+					}
 				},
 				ai:{
 					threaten:0.8,
