@@ -429,17 +429,19 @@
 					max_loadtime:{
 						name:'最长载入时间',
 						intro:'设置游戏从启动到完成载入所需的最长时间，超过此时间未完成载入会报错，若设备较慢或安装了较多扩展可适当延长此时间',
-						init:'5000',
+						init:'20000',
 						unfrequent:true,
 						item:{
 							5000:'5秒',
 							10000:'10秒',
 							20000:'20秒',
-							60000:'60秒'
+							60000:'60秒',
+							120000:'2分钟',
+							300000:'5分钟'
 						},
 						onclick:function(item){
 							game.saveConfig('max_loadtime',item);
-							if(item=='5000'){
+							if(item=='20000'){
 								localStorage.removeItem(lib.configprefix+'loadtime');
 							}
 							else{
@@ -6199,7 +6201,7 @@
 					}
 					lib.configprefix+='_';
 				}
-				window.resetGameTimeout=setTimeout(lib.init.reset,parseInt(localStorage.getItem(lib.configprefix+'loadtime'))||5000);
+				window.resetGameTimeout=setTimeout(lib.init.reset,parseInt(localStorage.getItem(lib.configprefix+'loadtime'))||20000);
 				if(window.cordovaLoadTimeout){
 					clearTimeout(window.cordovaLoadTimeout);
 					delete window.cordovaLoadTimeout;
@@ -15227,14 +15229,14 @@
         next.setContent('chooseToEnable');
         return next;
     },
-    chooseToDisable:function(horse){
+                chooseToDisable:function(horse){
         var next=game.createEvent('chooseToDisable');
         next.player=this;
         if(horse) next.horse=true;
         next.setContent('chooseToDisable');
         return next;
     },
-    countDisabled:function(){
+                countDisabled:function(){
         if(!this.storage.disableEquip) return 0;
         return this.storage.disableEquip.length;
     },

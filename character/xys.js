@@ -140,7 +140,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					content:'直到你的下回合开始，与你的距离为1的其他角色受到伤害时立即取消之，你与该角色各获得等同于伤害数量的“凶”标记。',
 				},
 				mark:true,
-				audio:'nzry_huaiju',
 				trigger:{
 					global:['damageBegin'],
 				},
@@ -231,6 +230,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				mark:true,
 				trigger:{player:['damageBegin','loseHpBegin']},
 				forced:true,
+				priority:10000000,
 				filter:function(event,player){return event.num&player.hp<=event.num},
 				content:function(){
 					player.die();

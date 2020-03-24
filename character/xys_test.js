@@ -712,8 +712,9 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					player.markSkillCharacter('xy_test_ts_bjzx',player,'白金之心',event.xy_str);
 					if(event.xy_bool){
 					    player.addSkill('xy_test_ts_bjzx3');
+					    player.removeMark('xy_test_jigeng',1);
 					}
-					player.addSkill('xy_test_ts_bjzx2');
+					player.addSkill('xy_test_ts_bjzx5');
 					player.insertPhase();
 				}
 			},
@@ -749,6 +750,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 						game.delay(0.5);
 						event.goto(1);
 					}
+					"step 3"
+					player.removeSkill('xy_test_ts_bjzx3');
 				}
 			},
 			xy_test_ts_bjzx4:{
@@ -769,6 +772,16 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				},
 				intro:{
 					content:'不能使用或打出卡牌'
+				}
+			},
+			xy_test_ts_bjzx5:{
+				trigger:{player:['phaseBegin']},
+				forced:true,
+				audio:false,
+				priority:500,
+				content:function(){
+				    player.addSkill('xy_test_ts_bjzx2');
+					player.removeSkill('xy_test_ts_bjzx5');
 				}
 			},
 			xy_test_ts_fkzs:{
@@ -987,6 +1000,55 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 				    console.log(trigger);
 				}
 			},
+			/*xy_test_wuqiu:{
+				enable:'phaseUse',
+				audio:true,
+				derivation:[
+				    "xy_test_wuqiu1",
+				    "xy_test_wuqiu2",
+				    "xy_test_wuqiu3",
+				    "xy_test_wuqiu4",
+				    "xy_test_wuqiu5"
+				],
+				filter:function(event,player){
+					return player.countMark('xy_test_jigeng')>=4;
+				},
+				content:function(){
+					'step 0'
+					player.loseMaxHp();
+					player.chooseControl(get.translation("xy_test_ts_xgsq"),get.translation("xy_test_ts_ttzm"),get.translation("xy_test_ts_bjzx"),get.translation("xy_test_ts_fkzs"),get.translation("xy_test_ts_zdhh"),function(){
+    					var randNum=Math.random();
+    					if(randNum<0.25){
+    					    return get.translation("xy_test_ts_ttzm");
+    					}else if(randNum<0.5){
+    					    return get.translation("xy_test_ts_bjzx");
+    					}else if(randNum<0.75){
+    					    return get.translation("xy_test_ts_fkzs");
+    					}else{
+    					    return get.translation("xy_test_ts_zdhh");
+    					}
+					}).set('prompt',get.prompt('xy_test_tishen')).set('choiceList',[
+						get.translation("xy_test_ts_xgsq_info"),
+						get.translation("xy_test_ts_ttzm_info"),
+						get.translation("xy_test_ts_bjzx_info"),
+						get.translation("xy_test_ts_fkzs_info"),
+						get.translation("xy_test_ts_zdhh_info")
+					]);
+					'step 1'
+					player.awakenSkill('xy_test_tishen');
+					if(result.control==get.translation("xy_test_ts_xgsq")){
+					    player.addSkill("xy_test_ts_xgsq");
+					}else if(result.control==get.translation("xy_test_ts_ttzm")){
+					    player.addSkill("xy_test_ts_ttzm");
+					}else if(result.control==get.translation("xy_test_ts_bjzx")){
+					    player.addSkill("xy_test_ts_bjzx");
+					}else if(result.control==get.translation("xy_test_ts_fkzs")){
+					    player.addSkill("xy_test_ts_fkzs");
+					}else if(result.control==get.translation("xy_test_ts_zdhh")){
+					    player.addSkill("xy_test_ts_zdhh");
+					}
+				}
+			},*/
 		},
 		translate:{
 		    /********Character*******/
