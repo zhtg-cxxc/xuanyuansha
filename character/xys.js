@@ -11,6 +11,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_baoshengjie:['male','shen',3,['xy_guanji','xy_yexing']],
 			xy_yangbining:['female','shen',3,['xy_juebi','xy_xinning']],
 			xy_hushengda:['male','shen',3,['xy_ouhuang']],
+			xy_junguan:['male','shen',4,['xy_haofang','xy_junxun','xy_zhongguo'],['zhu']],
 		},
 		characterTitle:{
 			xy_banxuan:'#r全民男神qwq',
@@ -20,6 +21,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_baoshengjie:'#b鲍爷',
 			xy_yangbining:'#g未定',
 			xy_hushengda:'#b鬼才欧皇',
+		    xy_junguan:"#r保家卫国",
 		},
 		characterIntro:{
 			xy_banxuan:'于 V 0.1.0 创建',
@@ -29,10 +31,11 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_baoshengjie:'于 V 0.1.1 创建',
 			xy_yangbining:'于 V 0.1.1 创建',
 			xy_hushengda:'于 V 0.1.1 创建',
+			xy_junguan:"于 V 0.1.3 加入主包<br/><strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：强制控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>特别注意</strong>：因为不同班的军官是不同的，大家可通过切换皮肤获得最适合你的军官，若没有你们班的军官，请将图片上传到网盘后将分享链接附在<a href='https://zhtg.red/xys-devote/'>《对轩辕杀做出贡献——帮助我们的开发！》</a>！",
 		},
 		characterSort:{
 			xys:{
-				xy_teachers:['xy_banxuan','xy_zhoubaifang'],
+				xy_teachers:['xy_banxuan','xy_zhoubaifang','xy_junguan'],
 				xy_201906:['xy_baohan','xy_yaohan','xy_yangbining','xy_baoshengjie','xy_hushengda'],
 				
 			},
@@ -780,6 +783,118 @@ game.import('character',function(lib,game,ui,get,ai,_status){
                     player.draw();
                 }
             },
+			xy_junxun:{
+				subSkill:{
+					mark:{
+						mark:true,
+						marktext:'训',
+						intro:{
+							content:'跳过下个回合的判定阶段和摸牌阶段',
+						},
+					},
+				},
+				enable:'phaseUse',
+				usable:1,
+				filter:function(event,player){
+					return player.countCards('h',lib.skill.xy_junxun.filterCard);
+				},
+				filterCard:function(card){
+					return card.name=='sha'||get.type(card)=='trick';
+				},
+				check:function(card){return 1},
+				filterTarget:lib.filter.notMe,
+				discard:false,
+				lose:false,
+				delay:0,
+				content:function(){
+					'step 0'
+					target.gain(cards,player,'give');
+					'step 1'
+					target.chooseUseTarget(cards[0],game.filterPlayer(function(current){
+						return current!=player;
+					}),'请使用得到的牌，或者跳过下回合的判定阶段和摸牌阶段');
+					'step 2'
+					if(result.bool) game.asyncDraw([player,target]);
+					else{
+						target.addTempSkill('xy_junxun_mark','phaseJudgeSkipped');
+						target.skip('phaseJudge');
+						target.skip('phaseDraw');
+						event.finish();
+					}
+					'step 3'
+					game.delay();
+				},
+				ai:{
+					order:12,
+					result:{
+						target:function(player,target){
+							var card=ui.selected.cards[0];
+							if(target.hasSkill('pingkou')) return 1;
+							if(!card) return 0;
+							var info=get.info(card);
+							if(info.selectTarget==-1){
+								var eff=0;
+								game.countPlayer(function(current){
+									if(current!=player&&target.canUse(card,current)) eff+=get.effect(current,card,target,target)>0
+								});
+								if(eff>0||get.value(card)<3) return eff;
+								return 0;
+							}
+							else if(game.hasPlayer(function(current){
+								return current!=player&&target.canUse(card,current)&&get.effect(current,card,target,target)>0
+							})) return 1.5;
+							else if(get.value(card)<3) return -1;
+							return 0;
+						},
+					},
+				},
+			},
+			xy_zhongguo:{
+				trigger:{global:'dieAfter'},
+				direct:true,
+				limited:true,
+				zhuSkill:true,
+				unique:true,
+				skillAnimation:true,
+				animationColor:'thunder',
+				filter:function(event,player){
+					if(get.mode()!='identity') return false;
+					if(!player.hasZhuSkill('xy_zhongguo')) return false;
+					if(event.player.isAlive()) return false;
+					if(event.player.identity=='mingzhong') return false;
+					var evt=event.getParent('xy_junxun');
+					return evt&&evt.name=='xy_junxun'&&evt.player==player;
+				},
+				content:function(){
+					'step 0'
+					trigger.player.chooseBool('是否发动'+get.translation(player)+'的【忠国】？').forceDie=true;
+					'step 1'
+					if(result.bool){
+						player.logSkill('xy_zhongguo',trigger.player);
+						player.awakenSkill('xy_zhongguo');
+						game.broadcastAll(function(source){
+							if(source.node.dieidentity){
+								source.node.dieidentity.innerHTML='忠臣';
+							}
+							source.revive(2,false);
+							source.identity='zhong';
+							source.setIdentity();
+						},trigger.player);
+						trigger.player.changeGroup(player.group);
+						trigger.player.draw();
+						var evt=trigger.getParent('damage');
+						if(evt.untrigger) evt.untrigger(false,trigger.player);
+						game.addVideo('setIdentity',trigger.player,'zhong');
+					}
+				},
+			},
+			xy_haofang:{
+				mod:{
+					cardname:function(card,player,name){
+						if(lib.card[card.name].type=='delay') return 'wuzhong';
+					},
+				},
+			},
 		},
 		translate:{
 			xy_banxuan:"班轩",
@@ -789,6 +904,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_baoshengjie:'鲍圣杰',
 			xy_yangbining:"未定",
 			xy_hushengda:"胡圣达",
+		    xy_junguan:"教官",
 
 			xy_teachers:'教职工',
 			xy_201906:'轩辕六班',
@@ -834,7 +950,13 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_hongzhuan:"红专",
 			xy_hongzhuan_info:"每当你使用一张红色牌时，你摸一张牌。",
 			xy_zaihe:"再和",
-			xy_zaihe_info:"<strong>主公技</strong>，你可以随机获得角色牌堆中一个主公角色的一个主公技。",
+			xy_zaihe_info:"<strong>主公技，限定技</strong>，你的死亡结算开始时，你可以指定一名未展示身份的存活角色并令其展示其身份，若该角色为忠臣，则你与其交换身份，该角色获得技能【崩坏】。",
+		    xy_junxun:'军训',
+			xy_junxun_info:'出牌阶段限一次，你可以将一张【杀】或普通锦囊牌交给一名其他角色，然后该角色选择一项：对除你以外的角色使用此牌并在此牌结算完成后和你各摸一张牌；或跳过下回合的判定阶段和摸牌阶段。',
+			xy_zhongguo:'忠国',
+			xy_zhongguo_info:'主公技，限定技，当有角色因你发动的【行动】而死亡后，若其身份不为【明忠】，则其可以将身份改为忠臣并重新加入游戏，然后将势力改为与你相同，将体力值回复至2点并摸一张牌。',
+			xy_haofang:'豪放',
+			xy_haofang_info:'锁定技，你不能使用非转化的延时锦囊牌。你可以将一张延时锦囊牌当做【无中生有】使用。',
 		},
 	};
 });

@@ -125,7 +125,7 @@
 						this.sendl('eventsdenied','time');
 					}
 					else{
-						cfg.nickname=cfg.nickname||'轩辕玩家';
+						cfg.nickname=cfg.nickname||'无名玩家';
 						cfg.avatar=cfg.nickname||'caocao';
 						cfg.creator=id;
 						cfg.id=util.getid();

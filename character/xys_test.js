@@ -7,7 +7,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    //-----zhtg-----
 			xy_test_yaohan:['male','shen',3,['xy_test_chewei']],
 			xy_test_wuhaibin:['male','shen',3,['xy_test_yihuo'],['zhu']],
-			xy_junguan:['male','shen',4,['xy_test_haofang','xy_test_junxun','xy_test_zhongguo'],['zhu']],
 			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']],
 			xy_test_chenghao:['male','shen',4,['xy_test_jigeng','xy_test_tishen']],
 			
@@ -20,7 +19,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    //-----zhtg-----
 		    xy_test_yaohan:"#r征求共研",
 		    xy_test_wuhaibin:"#r征求共研",
-		    xy_junguan:"#r征求共研",
 		    xy_test_fangzihao:"#r征求共研",
 		    xy_test_chenghao:"#r征求共研",
 		    
@@ -32,7 +30,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    //-----zhtg-----
 		    xy_test_yaohan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：防御、干扰。<br/><strong>共研重点</strong>：角色强度，与现有角色相比的优劣。",
 		    xy_test_wuhaibin:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：辅助、控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>该角色还需要更多技能，欢迎大家献计献策！</strong>",
-		    xy_junguan:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：强制控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>特别注意</strong>：因为不同班的军官是不同的，大家可通过切换皮肤获得最适合你的军官，若没有你们班的军官，请将图片上传到网盘后将分享链接附在<a href='https://zhtg.red/xys-devote/'>《对轩辕杀做出贡献——帮助我们的开发！》</a>！",
 		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
 			xy_test_chenghao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：替身使者、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合JOJO相关设定。",
 			
@@ -250,118 +247,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 						},
 					},
 					threaten:1.6
-				},
-			},
-			xy_test_junxun:{
-				subSkill:{
-					mark:{
-						mark:true,
-						marktext:'训',
-						intro:{
-							content:'跳过下个回合的判定阶段和摸牌阶段',
-						},
-					},
-				},
-				enable:'phaseUse',
-				usable:1,
-				filter:function(event,player){
-					return player.countCards('h',lib.skill.xy_test_junxun.filterCard);
-				},
-				filterCard:function(card){
-					return card.name=='sha'||get.type(card)=='trick';
-				},
-				check:function(card){return 1},
-				filterTarget:lib.filter.notMe,
-				discard:false,
-				lose:false,
-				delay:0,
-				content:function(){
-					'step 0'
-					target.gain(cards,player,'give');
-					'step 1'
-					target.chooseUseTarget(cards[0],game.filterPlayer(function(current){
-						return current!=player;
-					}),'请使用得到的牌，或者跳过下回合的判定阶段和摸牌阶段');
-					'step 2'
-					if(result.bool) game.asyncDraw([player,target]);
-					else{
-						target.addTempSkill('xy_test_junxun_mark','phaseJudgeSkipped');
-						target.skip('phaseJudge');
-						target.skip('phaseDraw');
-						event.finish();
-					}
-					'step 3'
-					game.delay();
-				},
-				ai:{
-					order:12,
-					result:{
-						target:function(player,target){
-							var card=ui.selected.cards[0];
-							if(target.hasSkill('pingkou')) return 1;
-							if(!card) return 0;
-							var info=get.info(card);
-							if(info.selectTarget==-1){
-								var eff=0;
-								game.countPlayer(function(current){
-									if(current!=player&&target.canUse(card,current)) eff+=get.effect(current,card,target,target)>0
-								});
-								if(eff>0||get.value(card)<3) return eff;
-								return 0;
-							}
-							else if(game.hasPlayer(function(current){
-								return current!=player&&target.canUse(card,current)&&get.effect(current,card,target,target)>0
-							})) return 1.5;
-							else if(get.value(card)<3) return -1;
-							return 0;
-						},
-					},
-				},
-			},
-			xy_test_zhongguo:{
-				trigger:{global:'dieAfter'},
-				direct:true,
-				limited:true,
-				zhuSkill:true,
-				unique:true,
-				skillAnimation:true,
-				animationColor:'thunder',
-				filter:function(event,player){
-					if(get.mode()!='identity') return false;
-					if(!player.hasZhuSkill('xy_test_zhongguo')) return false;
-					if(event.player.isAlive()) return false;
-					if(event.player.identity=='mingzhong') return false;
-					var evt=event.getParent('xy_test_junxun');
-					return evt&&evt.name=='xy_test_junxun'&&evt.player==player;
-				},
-				content:function(){
-					'step 0'
-					trigger.player.chooseBool('是否发动'+get.translation(player)+'的【忠国】？').forceDie=true;
-					'step 1'
-					if(result.bool){
-						player.logSkill('xy_test_zhongguo',trigger.player);
-						player.awakenSkill('xy_test_zhongguo');
-						game.broadcastAll(function(source){
-							if(source.node.dieidentity){
-								source.node.dieidentity.innerHTML='忠臣';
-							}
-							source.revive(2,false);
-							source.identity='zhong';
-							source.setIdentity();
-						},trigger.player);
-						trigger.player.changeGroup(player.group);
-						trigger.player.draw();
-						var evt=trigger.getParent('damage');
-						if(evt.untrigger) evt.untrigger(false,trigger.player);
-						game.addVideo('setIdentity',trigger.player,'zhong');
-					}
-				},
-			},
-			xy_test_haofang:{
-				mod:{
-					cardname:function(card,player,name){
-						if(lib.card[card.name].type=='delay') return 'wuzhong';
-					},
 				},
 			},
 			xy_test_jigeng:{
@@ -1055,7 +940,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    //-----zhtg-----
 		    xy_test_yaohan:"研姚涵",
 		    xy_test_wuhaibin:"研吴海斌",
-		    xy_junguan:"研教官",
 		    xy_test_fangzihao:"研方梓豪",
 		    xy_test_chenghao:"研程浩",
 		    
@@ -1085,12 +969,6 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_hunge_info:"【这个技能我还没想好丫】吴老师总喜欢在地理课前放一些灵魂歌手唱的关于地理的歌……",
 		    xy_test_yihuo:"医活",
 		    xy_test_yihuo_info:"当一名未翻面的角色进入濒死状态时，你可以令其翻面并回复一点体力，然后你与其各摸一张牌",
-		    xy_test_junxun:'军训',
-			xy_test_junxun_info:'出牌阶段限一次，你可以将一张【杀】或普通锦囊牌交给一名其他角色，然后该角色选择一项：对除你以外的角色使用此牌并在此牌结算完成后和你各摸一张牌；或跳过下回合的判定阶段和摸牌阶段。',
-			xy_test_zhongguo:'忠国',
-			xy_test_zhongguo_info:'主公技，限定技，当有角色因你发动的【行动】而死亡后，若其身份不为【明忠】，则其可以将身份改为忠臣并重新加入游戏，然后将势力改为与你相同，将体力值回复至2点并摸一张牌。',
-			xy_test_haofang:'豪放',
-			xy_test_haofang_info:'锁定技，你不能使用非转化的延时锦囊牌。你可以将一张延时锦囊牌当做【无中生有】使用。',
 			xy_test_jigeng:"集梗",
 			xy_test_jigeng2:"集梗",
 			xy_test_jigeng_info:"锁定技，当你受到1点伤害后，你获得一枚“梗”标记；锁定技，当你于弃牌阶段内弃置牌后，你获得等同于失去的牌数量的“梗”标记。",

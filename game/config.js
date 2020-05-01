@@ -14,8 +14,8 @@ window.config={
 	forbiddouble:['zhugedan','swd_kangnalishi','dongzhuo','wutugu','hs_siwangzhiyi','hs_ronghejuren','hs_shanlingjuren'],
 	forbidthreecard:['qiankunbiao','shenhuofeiya','gw_ciguhanshuang','gw_birinongwu','gw_qinpendayu','gw_poxiao'],
 	all:{
-		sgscharacters:['xys','standard','shenhua','xinghuoliaoyuan','refresh','yijiang','sp','extra','old','mobile','tw'],
-		sgscards:['standard','extra','sp','guozhan'],
+		sgscharacters:['standard','shenhua','xinghuoliaoyuan','refresh','yijiang','sp','extra','old','mobile','tw'],
+		sgscards:['standard','extra','sp','guozhan','zhulu'],
 		sgsmodes:['identity','guozhan','versus','doudizhu','single','brawl','connect'],
 		stockmode:['identity','guozhan','versus','boss','doudizhu','single','chess','stone','connect','brawl','tafang'],
 		stockextension:['boss','cardpile','coin','wuxing'],
@@ -34,8 +34,8 @@ window.config={
 	volumn_background:8,
 	volumn_audio:8,
 
-	connect_avatar:'caocao',
-	connect_nickname:'轩辕玩家',
+	connect_avatar:'xy_banxuan',
+	connect_nickname:'菊中同学',
 	config_menu:true,
 	auto_popped_config:true,
 	auto_popped_history:false,
@@ -164,9 +164,9 @@ window.config={
 			],
 			choice:{
 				zhu:3,
-				zhong:4,
+				zhong:5,
 				nei:5,
-				fan:3,
+				fan:5,
 			},
 			show_identity:true,
 			difficulty:'normal',

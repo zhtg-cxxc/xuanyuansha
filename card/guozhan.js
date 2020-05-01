@@ -42,7 +42,6 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 				fullskin:true,
 				type:'equip',
 				subtype:'equip2',
-				cardimage:'suolianjia',
 				skills:['minguangkai_cancel','minguangkai_link'],
 				ai:{
 					basic:{
@@ -231,7 +230,8 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 					tag:{
 						damage:1,
 						thunderDamage:1,
-						natureDamage:1
+						natureDamage:1,
+						loseCard:1,
 					},
 					result:{
 						target:function(player,target){
@@ -621,7 +621,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 					if(target.isUnseen(0)) controls.push('主将');
 					if(target.isUnseen(1)) controls.push('副将');
 					if(controls.length>1){
-						player.chooseControl(controls);
+						player.chooseControl(controls).set('ai',function(){return 1});
 					}
 					if(controls.length==0) event.finish();
 					"step 1"
@@ -708,7 +708,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 						target:function(player,target){
 							var hs=target.getCards('h');
 							if(hs.length<=1){
-								if(target==player&&hs[0].name=='yiyi'){
+								if(target==player&&(hs.length==0||hs[0].name=='yiyi')){
 									return 0;
 								}
 								return 0.3;
@@ -1022,6 +1022,8 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 					return evt&&evt.card&&evt.card.name=='sha'&&event.player.countGainableCards(player,'h')>0;
 				},
 				//priority:7,
+				logTarget:'player',
+				prompt2:'获得该角色的一张手牌',
 				check:function(event,player){
 					return get.attitude(player,event.player)<0;
 				},
@@ -1060,10 +1062,14 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 					nothunder:true,
 					effect:{
 						target:function(card,player,target,current){
-							if(card.name=='sha'&&player.getEquip('qinggang')||target.hasSkillTag('unequip2')) return;
+							if(target.hasSkillTag('unequip2')) return;
 							if(player.hasSkillTag('unequip',false,{
 								name:card?card.name:null,
-								target:player,
+								target:target,
+								card:card
+							})||player.hasSkillTag('unequip_ai',false,{
+								name:card?card.name:null,
+								target:target,
 								card:card
 							})) return;
 							if(get.tag(card,'natureDamage')) return 'zerotarget';
