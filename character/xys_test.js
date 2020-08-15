@@ -9,6 +9,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_test_wuhaibin:['male','shen',3,['xy_test_yihuo'],['zhu']],
 			xy_test_fangzihao:['male','shen',4,['xy_test_zhuanli']],
 			xy_test_chenghao:['male','shen',4,['xy_test_jigeng','xy_test_tishen']],
+			xy_test_wujianyun:['female','shen',3,['xy_test_shugan','xinfu_xunxian']],
 			
 			//-----bb------
 			xy_test_wufengxing:['male','shen',3,['xy_test_xuanfu','xy_test_manfen'],['zhu']],
@@ -21,6 +22,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_wuhaibin:"#r征求共研",
 		    xy_test_fangzihao:"#r征求共研",
 		    xy_test_chenghao:"#r征求共研",
+		    xy_test_wujianyun:"#r征求共研",
 		    
 		    //-----fzh------
 			xy_test_wufengxing:'#b物理一定要学好',
@@ -32,6 +34,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_wuhaibin:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：辅助、控制。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。<br/><strong>该角色还需要更多技能，欢迎大家献计献策！</strong>",
 		    xy_test_fangzihao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：垄断（控制）、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
 			xy_test_chenghao:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：替身使者、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合JOJO相关设定。",
+			xy_test_wujianyun:"<strong>初稿设计</strong>：开发组 <a href='https://zhtg.red'>种花兔</a>；<br/><strong>预期定位</strong>：过牌、辅助。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
 			
 			//-----bb------
 			xy_test_wufengxing:"<strong>初稿设计</strong>：开发组 <a href='https://bbsblog.ftp.sh'>BB</a>；<br/><strong>预期定位</strong>：辅助、控制、爆发。<br/><strong>共研重点</strong>：角色强度，是否符合该角色现实人设。",
@@ -934,6 +937,51 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					}
 				}
 			},*/
+			xy_test_shugan:{
+			    audio:0,
+				unique:true,
+				forced:true,
+				trigger:{player:'phaseBegin'},
+				limited:true,
+				skillAnimation:'epic',
+				animationColor:'thunder',
+				derivation:[
+				    "xy_test_shutou",
+				    "xy_test_shulie",
+				    "xinfu_guanchao"
+				],
+				content:function(){
+					'step 0'
+					player.chooseControl(get.translation("xy_test_shutou"),get.translation("xy_test_shulie"),get.translation("xinfu_guanchao"),function(){
+    					var randNum=Math.random();
+    					if(randNum<0.25){
+    					    return get.translation("xy_test_shutou");
+    					}else if(randNum<0.5){
+    					    return get.translation("xy_test_shulie");
+    					}else{
+    					    return get.translation("xinfu_guanchao");
+    					}
+					}).set('prompt',get.prompt('xy_test_shugan')).set('choiceList',[
+						get.translation("xy_test_shutou")+"（<b>限奇</b>："+get.translation("xy_test_shugan_xianji_info")+"）",
+						get.translation("xy_test_shulie")+"（<b>限偶</b>："+get.translation("xy_test_shugan_xianou_info")+"）",
+						get.translation("xinfu_guanchao"),
+					]);
+					'step 1'
+					player.awakenSkill('xy_test_shugan');
+					if(result.control==get.translation("xy_test_shutou")){
+					    player.addSkill("xy_test_shutou");
+					    player.addSkill("xy_test_shugan_xianji");
+					}else if(result.control==get.translation("xy_test_shulie")){
+					    player.addSkill("xy_test_shulie");
+					    player.addSkill("xy_test_shugan_xianou");
+					}else if(result.control==get.translation("xinfu_guanchao")){
+					    player.addSkill("xinfu_guanchao");
+					}
+				}
+			},
+			xy_test_shutou:{
+			    
+			}
 		},
 		translate:{
 		    /********Character*******/
@@ -942,6 +990,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		    xy_test_wuhaibin:"研吴海斌",
 		    xy_test_fangzihao:"研方梓豪",
 		    xy_test_chenghao:"研程浩",
+		    xy_test_wujianyun:"研邬建云",
 		    
 		    //-----bb------
 			xy_test_wufengxing:"研吴凤星",
@@ -987,6 +1036,16 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 			xy_test_ts_zdhh_info:"出牌阶段，你可以消耗5个“梗”标记并指定一名没有“炸”标记的玩家获得一枚“炸”标记（指定后不可见），有“炸”标记的玩家受到非“杀手皇后”造成的伤害时，你可让该玩家或伤害来源受到3点火焰伤害（先结算“杀手皇后”造成的伤害），然后移去“炸”标记。",
 			xy_test_zhuanli:"专利",xy_test_zhuanli1:"专利",xy_test_zhuanli3:"专利",
 			xy_test_zhuanli_info:"锁定技，每当你使用或打出一张非装备牌之后，若你是本轮游戏第一个使用或打出该牌的角色，你可以选择弃置一张牌已对其申请专利；若其他角色使用或打出了你已经申请专利的牌之后，其需选择将一张牌交给你，否则该牌无效。",
+			xy_test_shugan:"数感",
+			xy_test_shugan_info:"<b>限定技</b>，在你拥有此技能后的第一个回合的准备阶段时，你可选择一项：1. 展示你的手牌并弃置其中所有的奇数牌，然后获得技能【数透】；2. 展示你的手牌并弃置其中所有的偶数牌，然后获得技能【数列】；3. 获得技能【观潮】。",
+			xy_test_shugan_xianji:"限奇",
+			xy_test_shugan_xianji_info:"<b>锁定技</b>，你无法使用奇数牌，且你可以在出牌阶段或需要使用牌响应时弃置任意数量的奇数牌，然后获得牌堆顶等量的牌。",
+			xy_test_shutou:"数透",
+			xy_test_shutou_info:"<b>锁定技</b>，每当你需要摸牌时，改为展示牌堆顶的2X+2张牌，然后选择其中的X张偶数牌并获得之。",
+			xy_test_shugan_xianou:"限偶",
+			xy_test_shugan_xianou_info:"<b>锁定技</b>，你无法使用偶数牌，且你可以在出牌阶段或需要使用牌响应时弃置任意数量的偶数牌，然后获得牌堆顶等量的牌。",
+			xy_test_shulie:"数列",
+			xy_test_shulie_info:"<b>锁定技</b>，每当你的奇数牌造成伤害时，改为造成两倍的伤害。",
 		},
 	};
 });
